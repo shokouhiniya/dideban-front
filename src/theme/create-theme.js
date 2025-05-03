@@ -2,14 +2,10 @@
 
 import { createTheme as createMuiTheme } from '@mui/material/styles';
 
-import { mixins } from './core/mixins';
-import { shadows } from './core/shadows';
-import { palette } from './core/palette';
+import breakpoints from './breakpoints';
 import { themeConfig } from './theme-config';
-import { components } from './core/components';
-import { typography } from './core/typography';
-import { customShadows } from './core/custom-shadows';
 import { updateCoreWithSettings, updateComponentsWithSettings } from './with-settings';
+import { mixins , shadows , palette , components , typography , customShadows } from './core';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +22,7 @@ export const baseTheme = {
       customShadows: customShadows.dark,
     },
   },
+  breakpoints,
   mixins,
   components,
   typography,
