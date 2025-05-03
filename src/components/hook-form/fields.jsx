@@ -1,5 +1,5 @@
 import { RHFTextField } from './rhf-text-field';
-import { RHFDatePicker, RHFMobileDatePicker, RHFMobileDateTimePicker } from './rhf-date-picker';
+import { RHFDatePicker, RHFMobileDateTimePicker } from './rhf-date-picker';
 
 // ----------------------------------------------------------------------
 
