@@ -32,6 +32,7 @@ import { navData as dashboardNavData } from '../nav-config-dashboard';
 import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
 import { NotificationsDrawer } from '../components/notifications-drawer';
 import { MainSection, layoutClasses, HeaderSection, LayoutSection } from '../core';
+import { UI_CONFIG } from '../../global-config';
 
 // ----------------------------------------------------------------------
 
@@ -114,39 +115,43 @@ export function DashboardLayout({ sx, cssVars, children, slotProps, layoutQuery 
           )}
 
           {/** @slot Workspace popover */}
-          <WorkspacesPopover
-            data={_workspaces}
-            sx={{ ...(isNavHorizontal && { color: 'var(--layout-nav-text-primary-color)' }) }}
-          />
+          {UI_CONFIG.workspaces && (
+            <WorkspacesPopover
+              data={_workspaces}
+              sx={{ ...(isNavHorizontal && { color: 'var(--layout-nav-text-primary-color)' }) }}
+            />
+          )}
         </>
       ),
       rightArea: (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0, sm: 0.75 } }}>
           {/** @slot Searchbar */}
-          <Searchbar data={navData} />
+          {UI_CONFIG.searchbar && <Searchbar data={navData} />}
 
           {/** @slot Language popover */}
-          <LanguagePopover
-            data={[
-              { value: 'en', label: 'English', countryCode: 'GB' },
-              { value: 'fr', label: 'French', countryCode: 'FR' },
-              { value: 'vi', label: 'Vietnamese', countryCode: 'VN' },
-              { value: 'cn', label: 'Chinese', countryCode: 'CN' },
-              { value: 'ar', label: 'Arabic', countryCode: 'SA' },
-            ]}
-          />
+          {UI_CONFIG.localization && (
+            <LanguagePopover
+              data={[
+                { value: 'en', label: 'English', countryCode: 'GB' },
+                { value: 'fr', label: 'French', countryCode: 'FR' },
+                { value: 'vi', label: 'Vietnamese', countryCode: 'VN' },
+                { value: 'cn', label: 'Chinese', countryCode: 'CN' },
+                { value: 'ar', label: 'Arabic', countryCode: 'SA' },
+              ]}
+            />
+          )}
 
           {/** @slot Notifications popover */}
-          <NotificationsDrawer data={_notifications} />
+          {UI_CONFIG.notification && <NotificationsDrawer data={_notifications} />}
 
           {/** @slot Contacts popover */}
-          <ContactsPopover data={_contacts} />
+          {UI_CONFIG.contacts && <ContactsPopover data={_contacts} />}
 
           {/** @slot Settings button */}
-          <SettingsButton />
+          {UI_CONFIG.settings && <SettingsButton />}
 
           {/** @slot Account drawer */}
-          <AccountDrawer data={_account} />
+          {UI_CONFIG.account && <AccountDrawer data={_account} />}
         </Box>
       ),
     };

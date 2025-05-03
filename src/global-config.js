@@ -4,6 +4,18 @@ import packageJson from '../package.json';
 
 // ----------------------------------------------------------------------
 
+export const UI_CONFIG = {
+  workspaces: false,
+  helpLink: false,
+  localization: false,
+  notification: false,
+  searchbar: false,
+  contacts: false,
+  settings: false,
+  account: true,
+  mobileOnly: true,
+}
+
 export const CONFIG = {
   appName: 'Minimal UI',
   appVersion: packageJson.version,
@@ -16,7 +28,7 @@ export const CONFIG = {
    */
   auth: {
     method: 'jwt',
-    skip: false,
+    skip: true,
     redirectPath: paths.dashboard.root,
   },
   /**

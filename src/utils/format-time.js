@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import jalaliday from 'jalaliday';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
@@ -28,6 +29,8 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
+dayjs.extend(jalaliday);
+dayjs.calendar('jalali');
 
 // ----------------------------------------------------------------------
 
@@ -36,8 +39,8 @@ export const formatPatterns = {
   date: 'DD MMM YYYY', // 17 Apr 2022
   time: 'h:mm a', // 12:00 am
   split: {
-    dateTime: 'DD/MM/YYYY h:mm a', // 17/04/2022 12:00 am
-    date: 'DD/MM/YYYY', // 17/04/2022
+    dateTime: 'YYYY/MM/DD h:mm a', // 17/04/2022 12:00 am
+    date: 'YYYY/MM/DD', // 17/04/2022
   },
   paramCase: {
     dateTime: 'DD-MM-YYYY h:mm a', // 17-04-2022 12:00 am

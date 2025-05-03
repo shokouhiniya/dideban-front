@@ -4,9 +4,9 @@ export const themeConfig = {
   /** **************************************
    * Base
    *************************************** */
+  direction: 'rtl',
   defaultMode: 'light',
   modeStorageKey: 'theme-mode',
-  direction: 'ltr',
   classesPrefix: 'minimal',
   /** **************************************
    * Css variables
@@ -19,7 +19,7 @@ export const themeConfig = {
    * Typography
    *************************************** */
   fontFamily: {
-    primary: 'Public Sans Variable',
+    primary: 'Vazirmatn Variable',
     secondary: 'Barlow',
   },
   /** **************************************

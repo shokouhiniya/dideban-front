@@ -3,6 +3,7 @@
 import { createTheme as createMuiTheme } from '@mui/material/styles';
 
 import { mixins } from './core/mixins';
+import breakpoints from './breakpoints';
 import { opacity } from './core/opacity';
 import { shadows } from './core/shadows';
 import { palette } from './core/palette';
@@ -29,6 +30,7 @@ export const baseTheme = {
       opacity,
     },
   },
+  breakpoints,
   mixins,
   components,
   typography,
