@@ -86,25 +86,24 @@ const CONTENT = `
 <h6>Key responsibilities</h6>
 
 <ul>
-  <li>Working with agency for design drawing detail, quotation and local production.</li>
-  <li>Produce window displays, signs, interior displays, floor plans and special promotions displays.</li>
-  <li>Change displays to promote new product launches and reflect festive or seasonal themes.</li>
-  <li>Planning and executing the open/renovation/ closing store procedure.</li>
-  <li>Follow‐up store maintenance procedure and keep updating SKU In &amp; Out.</li>
-  <li>Monitor costs and work within budget.</li>
-  <li>Liaise with suppliers and source elements.</li>
+  <li>Collaborate with agencies to finalize design drawings, obtain quotations, and coordinate local production.</li>
+  <li>Oversee the production of window displays, signage, interior setups, floor plans, and special promotional displays.</li>
+  <li>Update and refresh displays to support new product launches, festive campaigns, and seasonal promotions.</li>
+  <li>Plan and manage store openings, renovations, and closing procedures to ensure smooth execution.</li>
+  <li>Monitor and follow up on store maintenance activities and maintain accurate SKU in/out records.</li>
+  <li>Control expenses and ensure all activities stay within the approved budget.</li>
+  <li>Work closely with suppliers to source materials, props, and display elements.</li>
 </ul>
 
 <h6>Why You'll love working here</h6>
 
 <ul>
-  <li>Working with agency for design drawing detail, quotation and local production.</li>
-  <li>Produce window displays, signs, interior displays, floor plans and special promotions displays.</li>
-  <li>Change displays to promote new product launches and reflect festive or seasonal themes.</li>
-  <li>Planning and executing the open/renovation/ closing store procedure.</li>
-  <li>Follow‐up store maintenance procedure and keep updating SKU In &amp; Out.</li>
-  <li>Monitor costs and work within budget.</li>
-  <li>Liaise with suppliers and source elements.</li>
+  <li>Be part of creative projects from concept to execution, working with leading design agencies and production teams.</li>
+  <li>Gain hands-on experience in retail space transformation, from window displays to full store setups.</li>
+  <li>Play a key role in promoting new collections, festive themes, and brand campaigns.</li>
+  <li>Contribute to meaningful store projects including openings, renovations, and exciting launch events.</li>
+  <li>Work in a dynamic environment where your ideas and attention to detail make a visible impact on customer experience.</li>
+  <li>Collaborate with suppliers and partners to bring creative concepts to life, all while managing costs effectively.</li>
 </ul>
 `;
 

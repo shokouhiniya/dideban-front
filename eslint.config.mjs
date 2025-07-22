@@ -9,10 +9,6 @@ import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 // ----------------------------------------------------------------------
 
 /**
- * Custom ESLint rules configuration.
- */
-
-/**
  * @rules common
  * from 'react', 'eslint-plugin-react-hooks'...
  */
@@ -57,7 +53,7 @@ const importRules = () => ({
   'import/no-named-as-default-member': 0,
   'import/no-cycle': [
     0, // disabled if slow
-    { maxDepth: '∞', ignoreExternal: false, allowUnsafeDynamicCyclicDependency: false },
+    { ignoreExternal: true, disableScc: true },
   ],
 });
 
@@ -89,6 +85,12 @@ const sortImportsRules = () => {
     components: ['custom-components'],
   };
 
+  const typeGroups = [
+    ['type', 'external-type', 'builtin-type'],
+    { newlinesBetween: 'never' },
+    ['index-type', 'parent-type', 'sibling-type', 'internal-type'],
+  ];
+
   return {
     'perfectionist/sort-named-imports': [1, { type: 'line-length', order: 'asc' }],
     'perfectionist/sort-named-exports': [1, { type: 'line-length', order: 'asc' }],
@@ -113,7 +115,7 @@ const sortImportsRules = () => {
         groups: [
           'style',
           'side-effect',
-          'type',
+          ...typeGroups,
           ['builtin', 'external'],
           customGroups.mui,
           customGroups.routes,
@@ -125,7 +127,6 @@ const sortImportsRules = () => {
           customGroups.auth,
           customGroups.types,
           ['parent', 'sibling', 'index'],
-          ['parent-type', 'sibling-type', 'index-type'],
           'object',
           'unknown',
         ],

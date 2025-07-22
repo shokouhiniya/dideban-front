@@ -5,7 +5,7 @@ import Divider from '@mui/material/Divider';
 
 import { NavSectionHorizontal } from 'src/components/nav-section';
 
-import { layoutClasses } from '../core/classes';
+import { layoutClasses } from '../core';
 
 // ----------------------------------------------------------------------
 

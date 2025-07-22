@@ -9,12 +9,23 @@ import { Iconify } from '../../iconify';
 
 // ----------------------------------------------------------------------
 
-export function BaseOption({ sx, icon, label, tooltip, selected, onChangeOption, ...other }) {
+export function BaseOption({
+  sx,
+  icon,
+  label,
+  action,
+  tooltip,
+  selected,
+  onChangeOption,
+  ...other
+}) {
   return (
     <ItemRoot disableRipple selected={selected} onClick={onChangeOption} sx={sx} {...other}>
       <TopContainer>
         {icon}
-        <Switch name={label} size="small" color="default" checked={selected} sx={{ mr: -0.75 }} />
+        {action ?? (
+          <Switch name={label} size="small" color="default" checked={selected} sx={{ mr: -0.75 }} />
+        )}
       </TopContainer>
 
       <BottomContainer>
@@ -46,8 +57,8 @@ const ItemRoot = styled(ButtonBase, {
   cursor: 'pointer',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  padding: theme.spacing(2, 2.5),
-  borderRadius: theme.shape.borderRadius * 2,
+  padding: theme.spacing(2, 2, 2, 2.5),
+  borderRadius: Number(theme.shape.borderRadius) * 2,
   border: `solid 1px ${varAlpha(theme.vars.palette.grey['500Channel'], 0.12)}`,
   '&:hover': {
     backgroundColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.08),

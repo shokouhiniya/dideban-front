@@ -6,6 +6,7 @@ import { useBoolean } from 'minimal-shared/hooks';
 
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
 import Badge from '@mui/material/Badge';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -16,7 +17,6 @@ import IconButton from '@mui/material/IconButton';
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
-import { CustomTabs } from 'src/components/custom-tabs';
 import { varTap, varHover, transitionTap } from 'src/components/animate';
 
 import { NotificationItem } from './notification-item';
@@ -82,7 +82,7 @@ export function NotificationsDrawer({ data = [], sx, ...other }) {
   );
 
   const renderTabs = () => (
-    <CustomTabs variant="fullWidth" value={currentTab} onChange={handleChangeTab}>
+    <Tabs variant="fullWidth" value={currentTab} onChange={handleChangeTab} indicatorColor="custom">
       {TABS.map((tab) => (
         <Tab
           key={tab.value}
@@ -103,7 +103,7 @@ export function NotificationsDrawer({ data = [], sx, ...other }) {
           }
         />
       ))}
-    </CustomTabs>
+    </Tabs>
   );
 
   const renderList = () => (

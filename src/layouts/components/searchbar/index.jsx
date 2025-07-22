@@ -4,7 +4,7 @@ import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
 import { varAlpha } from 'minimal-shared/utils';
 import { useBoolean } from 'minimal-shared/hooks';
-import { useState, useEffect, useCallback } from 'react';
+import { useMemo, useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import MenuList from '@mui/material/MenuList';
@@ -43,6 +43,7 @@ export function Searchbar({ data: navItems = [], sx, ...other }) {
   const handleKeyDown = useCallback(
     (event) => {
       if (event.metaKey && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
         onToggle();
         setSearchQuery('');
       }
@@ -64,10 +65,14 @@ export function Searchbar({ data: navItems = [], sx, ...other }) {
 
   const formattedNavItems = flattenNavSections(navItems);
 
-  const dataFiltered = applyFilter({
-    inputData: formattedNavItems,
-    query: searchQuery,
-  });
+  const dataFiltered = useMemo(
+    () =>
+      applyFilter({
+        inputData: formattedNavItems,
+        query: searchQuery,
+      }),
+    [formattedNavItems, searchQuery]
+  );
 
   const notFound = searchQuery && !dataFiltered.length;
 
@@ -124,7 +129,7 @@ export function Searchbar({ data: navItems = [], sx, ...other }) {
     </Box>
   );
 
-  const renderList = () => (
+  const renderResults = () => (
     <MenuList
       disablePadding
       sx={{
@@ -136,8 +141,11 @@ export function Searchbar({ data: navItems = [], sx, ...other }) {
       }}
     >
       {dataFiltered.map((item) => {
-        const partsTitle = parse(item.title, match(item.title, searchQuery));
-        const partsPath = parse(item.path, match(item.path, searchQuery));
+        const matchesTitle = match(item.title, searchQuery, { insideWords: true });
+        const partsTitle = parse(item.title, matchesTitle);
+
+        const matchesPath = match(item.path, searchQuery, { insideWords: true });
+        const partsPath = parse(item.path, matchesPath);
 
         return (
           <MenuItem disableRipple key={`${item.title}${item.path}`}>
@@ -160,7 +168,6 @@ export function Searchbar({ data: navItems = [], sx, ...other }) {
 
       <Dialog
         fullWidth
-        closeAfterTransition
         maxWidth="sm"
         open={open}
         onClose={handleClose}
@@ -195,7 +202,7 @@ export function Searchbar({ data: navItems = [], sx, ...other }) {
         {notFound ? (
           <SearchNotFound query={searchQuery} sx={{ py: 15, px: 2.5 }} />
         ) : (
-          <Scrollbar sx={{ p: 2.5, height: 400 }}>{renderList()}</Scrollbar>
+          <Scrollbar sx={{ p: 2.5, height: 400 }}>{renderResults()}</Scrollbar>
         )}
       </Dialog>
     </>

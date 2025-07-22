@@ -50,7 +50,7 @@ export function JwtSignUpView() {
 
   const { checkUserSession } = useAuthContext();
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const defaultValues = {
     firstName: 'Hello',

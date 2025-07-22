@@ -1,112 +1,154 @@
-import { varAlpha } from 'minimal-shared/utils';
+import { parseCssVar } from 'minimal-shared/utils';
 
-import { avatarGroupClasses } from '@mui/material/AvatarGroup';
+import Box from '@mui/material/Box';
 
-// ----------------------------------------------------------------------
-
-const COLORS = ['primary', 'secondary', 'info', 'success', 'warning', 'error'];
-
-const colorByName = (name) => {
-  const charAt = name?.charAt(0).toLowerCase();
-
-  if (['a', 'c', 'f'].includes(charAt)) return 'primary';
-  if (['e', 'd', 'h'].includes(charAt)) return 'secondary';
-  if (['i', 'k', 'l'].includes(charAt)) return 'info';
-  if (['m', 'n', 'p'].includes(charAt)) return 'success';
-  if (['q', 's', 't'].includes(charAt)) return 'warning';
-  if (['v', 'x', 'y'].includes(charAt)) return 'error';
-
-  return 'default';
-};
+import { colorKeys } from '../palette';
 
 // ----------------------------------------------------------------------
 
-const avatarColors = {
-  colors: COLORS.map((color) => ({
-    props: ({ ownerState }) => ownerState.color === color,
+const baseColors = ['default', 'inherit'];
+const allColors = [...baseColors, ...colorKeys.palette];
+
+export function getAvatarColor(inputValue, fallback = 'default') {
+  if (!inputValue?.trim()) {
+    return fallback;
+  }
+
+  const firstChar = inputValue.trim()[0].toLowerCase();
+
+  // Only handle alphabet characters a-z
+  if (!/[a-z]/.test(firstChar)) {
+    return fallback;
+  }
+
+  const alphabetIndex = firstChar.charCodeAt(0) - 'a'.charCodeAt(0); // 0 for 'a', 25 for 'z'
+  const colorIndex = alphabetIndex % allColors.length;
+
+  return allColors[colorIndex] || fallback;
+}
+
+const customRenderSurplus = (surplus) => (
+  <Box
+    component="span"
+    sx={[
+      (theme) => ({
+        width: 1,
+        height: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        color: theme.vars.palette.primary.dark,
+        backgroundColor: theme.vars.palette.primary.lighter,
+        fontSize: {
+          '@': theme.typography.pxToRem(11),
+          '@32': theme.typography.pxToRem(12),
+          '@36': theme.typography.pxToRem(13),
+          '@40': theme.typography.pxToRem(14),
+          '@64': theme.typography.pxToRem(18),
+        },
+      }),
+    ]}
+  >
+    +{surplus}
+  </Box>
+);
+
+/* **********************************************************************
+ * 🗳️ Variants
+ * **********************************************************************/
+const colorVariants = [
+  {
+    props: {},
     style: ({ theme }) => ({
-      color: theme.vars.palette[color].contrastText,
-      backgroundColor: theme.vars.palette[color].main,
+      color: theme.vars.palette.action.active,
+      [parseCssVar(theme.vars.palette.Avatar.defaultBg)]: theme.vars.palette.grey[300],
+      ...theme.applyStyles('dark', {
+        [parseCssVar(theme.vars.palette.Avatar.defaultBg)]: theme.vars.palette.grey[700],
+      }),
+    }),
+  },
+  {
+    props: (props) =>
+      props.color === 'inherit' || (!!props.alt && getAvatarColor(props.alt) === 'inherit'),
+    style: ({ theme }) => ({
+      ...theme.mixins.filledStyles(theme, 'inherit'),
+    }),
+  },
+  ...colorKeys.palette.map((colorKey) => ({
+    props: (props) =>
+      props.color === colorKey || (!!props.alt && getAvatarColor(props.alt) === colorKey),
+    style: ({ theme }) => ({
+      color: theme.vars.palette[colorKey].contrastText,
+      backgroundColor: theme.vars.palette[colorKey].main,
     }),
   })),
-  defaultColor: [
+];
+
+const avatarGroupVariants = {
+  root: [
     {
-      props: ({ ownerState }) => ownerState.color === 'default',
-      style: ({ theme }) => ({
-        color: theme.vars.palette.text.secondary,
-        backgroundColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.24),
-      }),
+      props: (props) => props.variant === 'compact',
+      style: { width: 40, height: 40, position: 'relative' },
+    },
+  ],
+  avatar: [
+    {
+      props: (props) => props.variant === 'compact',
+      style: {
+        margin: 0,
+        width: 28,
+        height: 28,
+        position: 'absolute',
+        '&:first-of-type': { left: 0, bottom: 0, zIndex: 9 },
+        '&:last-of-type': { top: 0, right: 0 },
+      },
     },
   ],
 };
 
+/* **********************************************************************
+ * 🧩 Components
+ * **********************************************************************/
 const MuiAvatar = {
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
-    root: { variants: [avatarColors.defaultColor, avatarColors.colors].flat() },
-    rounded: ({ theme }) => ({ borderRadius: theme.shape.borderRadius * 1.5 }),
-    colorDefault: ({ ownerState, theme }) => {
-      const color = colorByName(ownerState.alt);
+    root: ({ theme }) => ({
+      containerType: 'inline-size',
+      fontSize: theme.typography.pxToRem(18),
+      fontWeight: theme.typography.fontWeightMedium,
+    }),
+    colorDefault: {
+      variants: [...colorVariants],
+    },
+    rounded: ({ theme }) => ({
+      borderRadius: Number(theme.shape.borderRadius) * 1.5,
+    }),
+  },
+};
 
-      return {
-        ...(!!ownerState.alt && {
-          ...(color !== 'default'
-            ? {
-                color: theme.vars.palette[color].contrastText,
-                backgroundColor: theme.vars.palette[color].main,
-              }
-            : {
-                color: theme.vars.palette.text.secondary,
-                backgroundColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.24),
-              }),
-        }),
-      };
+const MuiAvatarGroup = {
+  // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
+  defaultProps: {
+    max: 4,
+    renderSurplus: (surplus) => customRenderSurplus(surplus),
+  },
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
+  styleOverrides: {
+    root: {
+      justifyContent: 'flex-end',
+      variants: [...avatarGroupVariants.root],
+    },
+    avatar: {
+      variants: [...avatarGroupVariants.avatar],
     },
   },
 };
 
-// ----------------------------------------------------------------------
-
-const MuiAvatarGroup = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { max: 4 },
-
-  /** **************************************
-   * STYLE
-   *************************************** */
-  styleOverrides: {
-    root: ({ ownerState }) => ({
-      justifyContent: 'flex-end',
-      ...(ownerState.variant === 'compact' && {
-        width: 40,
-        height: 40,
-        position: 'relative',
-        [`& .${avatarGroupClasses.avatar}`]: {
-          margin: 0,
-          width: 28,
-          height: 28,
-          position: 'absolute',
-          '&:first-of-type': { left: 0, bottom: 0, zIndex: 9 },
-          '&:last-of-type': { top: 0, right: 0 },
-        },
-      }),
-    }),
-    avatar: ({ theme }) => ({
-      fontSize: 16,
-      fontWeight: theme.typography.fontWeightSemiBold,
-      '&:first-of-type': {
-        fontSize: 12,
-        color: theme.vars.palette.primary.dark,
-        backgroundColor: theme.vars.palette.primary.lighter,
-      },
-    }),
-  },
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
+export const avatar = {
+  MuiAvatar,
+  MuiAvatarGroup,
 };
-
-// ----------------------------------------------------------------------
-
-export const avatar = { MuiAvatar, MuiAvatarGroup };

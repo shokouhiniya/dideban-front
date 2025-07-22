@@ -1,3 +1,5 @@
+'use client';
+
 import { m } from 'framer-motion';
 import { usePopover } from 'minimal-shared/hooks';
 
@@ -36,7 +38,7 @@ export function ContactsPopover({ data = [], sx, ...other }) {
         <MenuList>
           {data.map((contact) => (
             <MenuItem key={contact.id} sx={{ p: 1 }}>
-              <Badge variant={contact.status} badgeContent="">
+              <Badge variant={contact.status} badgeContent=" ">
                 <Avatar alt={contact.name} src={contact.avatarUrl} />
               </Badge>
 

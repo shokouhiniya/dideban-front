@@ -5,11 +5,11 @@ import { autocompleteClasses } from '@mui/material/Autocomplete';
 
 // ----------------------------------------------------------------------
 
-/**
- * Icons
- */
-/** https://icon-sets.iconify.design/eva/arrow-ios-downward-fill/ */
+/* **********************************************************************
+ * ♉️ Custom icons
+ * **********************************************************************/
 const ArrowDownIcon = (props) => (
+  // https://icon-sets.iconify.design/eva/arrow-ios-downward-fill/
   <SvgIcon {...props}>
     <path
       fill="currentColor"
@@ -18,17 +18,15 @@ const ArrowDownIcon = (props) => (
   </SvgIcon>
 );
 
-// ----------------------------------------------------------------------
-
+/* **********************************************************************
+ * 🧩 Components
+ * **********************************************************************/
 const MuiAutocomplete = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { popupIcon: <ArrowDownIcon /> },
-
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
+  defaultProps: {
+    popupIcon: <ArrowDownIcon />,
+  },
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
     root: ({ theme }) => ({
       [`& span.${autocompleteClasses.tag}`]: {
@@ -52,10 +50,17 @@ const MuiAutocomplete = {
         ...theme.mixins.menuItemStyles(theme),
       },
     }),
-    endAdornment: { [`& .${svgIconClasses.root}`]: { width: 18, height: 18 } },
+    endAdornment: {
+      [`& .${svgIconClasses.root}`]: {
+        fontSize: 18,
+      },
+    },
   },
 };
 
-// ----------------------------------------------------------------------
-
-export const autocomplete = { MuiAutocomplete };
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
+export const autocomplete = {
+  MuiAutocomplete,
+};

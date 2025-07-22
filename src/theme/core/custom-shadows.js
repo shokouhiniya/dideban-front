@@ -31,8 +31,9 @@ function createCustomShadows(colorChannel) {
   };
 }
 
-// ----------------------------------------------------------------------
-
+/* **********************************************************************
+ * 📦 Final
+ * **********************************************************************/
 export const customShadows = {
   light: createCustomShadows(grey['500Channel']),
   dark: createCustomShadows(common.blackChannel),

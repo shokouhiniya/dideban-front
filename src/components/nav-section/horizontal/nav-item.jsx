@@ -172,6 +172,7 @@ const ItemIcon = styled('span', { shouldForwardProp })(() => ({
 const ItemTitle = styled('span', { shouldForwardProp })(({ theme }) => ({
   ...navItemStyles.title(theme),
   ...theme.typography.body2,
+  whiteSpace: 'nowrap',
   fontWeight: theme.typography.fontWeightMedium,
   variants: [
     { props: { active: true }, style: { fontWeight: theme.typography.fontWeightSemiBold } },

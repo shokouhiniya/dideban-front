@@ -2,10 +2,15 @@
 
 import { createTheme as createMuiTheme } from '@mui/material/styles';
 
-import breakpoints from './breakpoints';
+import { mixins } from './core/mixins';
+import { opacity } from './core/opacity';
+import { shadows } from './core/shadows';
+import { palette } from './core/palette';
 import { themeConfig } from './theme-config';
-import { updateCoreWithSettings, updateComponentsWithSettings } from './with-settings';
-import { mixins , shadows , palette , components , typography , customShadows } from './core';
+import { components } from './core/components';
+import { typography } from './core/typography';
+import { customShadows } from './core/custom-shadows';
+import { applySettingsToTheme, applySettingsToComponents } from './with-settings';
 
 // ----------------------------------------------------------------------
 
@@ -15,33 +20,31 @@ export const baseTheme = {
       palette: palette.light,
       shadows: shadows.light,
       customShadows: customShadows.light,
+      opacity,
     },
     dark: {
       palette: palette.dark,
       shadows: shadows.dark,
       customShadows: customShadows.dark,
+      opacity,
     },
   },
-  breakpoints,
   mixins,
   components,
   typography,
   shape: { borderRadius: 8 },
   direction: themeConfig.direction,
   cssVariables: themeConfig.cssVariables,
-  defaultColorScheme: themeConfig.defaultMode,
 };
 
 // ----------------------------------------------------------------------
 
 export function createTheme({ settingsState, themeOverrides = {}, localeComponents = {} } = {}) {
-  // Update core theme settings
-  const updatedCore = settingsState ? updateCoreWithSettings(baseTheme, settingsState) : baseTheme;
+  // Update core theme settings (colorSchemes, typography, etc.)
+  const updatedCore = settingsState ? applySettingsToTheme(baseTheme, settingsState) : baseTheme;
 
-  // Update component settings
-  const updatedComponents = settingsState
-    ? updateComponentsWithSettings(components, settingsState)
-    : {};
+  // Update component settings (only components)
+  const updatedComponents = settingsState ? applySettingsToComponents(settingsState) : {};
 
   // Create and return the final theme
   const theme = createMuiTheme(updatedCore, updatedComponents, localeComponents, themeOverrides);

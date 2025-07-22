@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
-import { SvgIcon } from '@mui/material';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
+import SvgIcon from '@mui/material/SvgIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -65,12 +65,7 @@ export function NotificationItem({ notification }) {
           {fToNow(notification.createdAt)}
           <Box
             component="span"
-            sx={{
-              width: 2,
-              height: 2,
-              borderRadius: '50%',
-              bgcolor: 'currentColor',
-            }}
+            sx={{ width: 2, height: 2, borderRadius: '50%', bgcolor: 'currentColor' }}
           />
           {notification.category}
         </>

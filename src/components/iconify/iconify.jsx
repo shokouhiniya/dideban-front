@@ -12,7 +12,7 @@ import { allIconNames, registerIcons } from './register-icons';
 // ----------------------------------------------------------------------
 
 export function Iconify({ className, icon, width = 20, height, sx, ...other }) {
-  const id = useId();
+  const uniqueId = useId();
 
   if (!allIconNames.includes(icon)) {
     console.warn(
@@ -29,7 +29,7 @@ export function Iconify({ className, icon, width = 20, height, sx, ...other }) {
   return (
     <IconRoot
       ssr
-      id={id}
+      id={uniqueId}
       icon={icon}
       className={mergeClasses([iconifyClasses.root, className])}
       sx={[

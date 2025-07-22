@@ -5,15 +5,15 @@ import { createTheme as getTheme } from '@mui/material/styles';
 // ----------------------------------------------------------------------
 
 /**
- * The original theme has not been customized.
- * Only use non-styling features such as breakpoints...
+ * Creates a text gradient effect by applying a linear gradient as the text color.
+ *
+ * @param color - The gradient color definition.
+ * @returns A CSSObject that applies the gradient as text color.
+ *
+ * @example
+ * ...theme.mixins.textGradient( `to right, ${theme.vars.palette.text.primary}, ${varAlpha(theme.vars.palette.text.primary, 0.2)}` )
  */
-const defaultMuiTheme = getTheme();
 
-/**
- * @usage
- * ...theme.mixins.textGradient(`to right, ${theme.vars.palette.text.primary}, ${alpha(theme.vars.palette.text.primary, 0.2)}`
- */
 export function textGradient(color) {
   return {
     background: `linear-gradient(${color})`,
@@ -24,6 +24,27 @@ export function textGradient(color) {
     color: 'transparent',
   };
 }
+
+// ----------------------------------------------------------------------
+
+/**
+ * Creates a multi-line text truncation style with optional height calculation based on typography.
+ *
+ * @param line - The number of lines to clamp.
+ * @param persistent - (Optional) Typography properties to calculate fixed height (e.g., fontSize, lineHeight).
+ * @returns A CSS object with styles.
+ *
+ * @example
+ * // Simple multi-line clamp
+ * ...theme.mixins.maxLine({ line: 2 })
+ *
+ * @example
+ * // Clamp with calculated height based on typography
+ * theme.mixins.maxLine({
+ *  line: 2,
+ *  persistent: theme.typography.caption,
+ * })
+ */
 
 function getFontSize(fontSize) {
   return typeof fontSize === 'string' ? remToPx(fontSize) : fontSize;
@@ -41,10 +62,10 @@ function calculateHeight(fontSize, lineHeight, line) {
   return fontSize * lineHeight * line;
 }
 
-// ----------------------------------------------------------------------
-
 export function maxLine({ line, persistent }) {
-  const breakpoints = defaultMuiTheme.breakpoints.keys;
+  const {
+    breakpoints: { keys, up },
+  } = getTheme();
 
   const baseStyles = {
     overflow: 'hidden',
@@ -65,11 +86,11 @@ export function maxLine({ line, persistent }) {
     return baseStyles;
   }
 
-  const responsiveStyles = breakpoints.reduce((acc, breakpoint) => {
-    const fontSize = getFontSize(persistent[defaultMuiTheme.breakpoints.up(breakpoint)]?.fontSize);
+  const responsiveStyles = keys.reduce((acc, breakpoint) => {
+    const fontSize = getFontSize(persistent[up(breakpoint)]?.fontSize);
 
     if (fontSize) {
-      acc[defaultMuiTheme.breakpoints.up(breakpoint)] = {
+      acc[up(breakpoint)] = {
         height: calculateHeight(fontSize, lineHeight, line),
       };
     }

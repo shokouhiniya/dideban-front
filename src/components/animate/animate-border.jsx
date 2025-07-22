@@ -29,7 +29,6 @@ export function AnimateBorder({ sx, children, duration, slotProps, className, ..
   const theme = useTheme();
 
   const rootRef = useRef(null);
-
   const primaryBorderRef = useRef(null);
 
   const [isHidden, setIsHidden] = useState(false);
@@ -72,12 +71,10 @@ export function AnimateBorder({ sx, children, duration, slotProps, className, ..
       size={slotProps?.primaryBorder?.size}
       sx={[
         {
-          ...theme.mixins.borderGradient({
-            padding: slotProps?.primaryBorder?.width,
-          }),
+          ...theme.mixins.borderGradient({ padding: slotProps?.primaryBorder?.width }),
         },
         ...(Array.isArray(slotProps?.primaryBorder?.sx)
-          ? (slotProps?.primaryBorder?.sx ?? [])
+          ? slotProps.primaryBorder.sx
           : [slotProps?.primaryBorder?.sx]),
       ]}
     />
@@ -97,7 +94,7 @@ export function AnimateBorder({ sx, children, duration, slotProps, className, ..
             transform: 'scale(-1, -1)',
           },
           ...(Array.isArray(slotProps?.secondaryBorder?.sx)
-            ? (slotProps?.secondaryBorder?.sx ?? [])
+            ? slotProps.secondaryBorder.sx
             : [slotProps?.secondaryBorder?.sx]),
         ]}
       />

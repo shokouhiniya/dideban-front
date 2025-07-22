@@ -31,9 +31,7 @@ export function SearchNotFound({ query, sx, slotProps, ...other }) {
         {...slotProps?.title}
         sx={[
           { color: 'text.primary' },
-          ...(Array.isArray(slotProps?.title?.sx)
-            ? (slotProps?.title?.sx ?? [])
-            : [slotProps?.title?.sx]),
+          ...(Array.isArray(slotProps?.title?.sx) ? slotProps.title.sx : [slotProps?.title?.sx]),
         ]}
       >
         Not found

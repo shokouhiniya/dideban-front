@@ -41,10 +41,7 @@ export function AnimateText({
   once = true,
   amount = 1 / 3,
   component = 'p',
-
-  // 1000 = 1s
-  repeatDelayMs = 100,
-
+  repeatDelayMs = 100, // 1000 = 1s
   ...other
 }) {
   const textRef = useRef(null);
@@ -102,12 +99,12 @@ export function AnimateText({
       <span className={animateTextClasses.srOnly}>{textArray.join(' ')}</span>
 
       <AnimatedTextContainer
+        aria-hidden
         ref={textRef}
         initial="initial"
         animate={animationControls}
         exit="exit"
         variants={varContainer()}
-        aria-hidden
         className={animateTextClasses.lines}
       >
         {textArray?.map((line, lineIndex) => (

@@ -53,8 +53,6 @@ export const primaryColorPresets = {
   },
 };
 
-// ----------------------------------------------------------------------
-
 export const secondaryColorPresets = {
   default: {
     lighter: secondary.lighter,

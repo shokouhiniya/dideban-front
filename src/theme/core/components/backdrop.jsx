@@ -3,17 +3,24 @@ import { varAlpha } from 'minimal-shared/utils';
 // ----------------------------------------------------------------------
 
 const MuiBackdrop = {
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
     root: ({ theme }) => ({
-      backgroundColor: varAlpha(theme.vars.palette.grey['800Channel'], 0.48),
+      variants: [
+        {
+          props: (props) => !props.invisible,
+          style: {
+            backgroundColor: varAlpha(theme.vars.palette.grey['800Channel'], 0.48),
+          },
+        },
+      ],
     }),
-    invisible: { background: 'transparent' },
   },
 };
 
-// ----------------------------------------------------------------------
-
-export const backdrop = { MuiBackdrop };
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
+export const backdrop = {
+  MuiBackdrop,
+};

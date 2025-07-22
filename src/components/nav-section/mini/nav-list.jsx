@@ -25,7 +25,7 @@ export function NavList({
 
   const pathname = usePathname();
 
-  const isActive = isActiveLink(pathname, data.path, !!data.children);
+  const isActive = isActiveLink(pathname, data.path, data.deepMatch ?? !!data.children);
 
   const { open, onOpen, onClose, anchorEl, elementRef: navItemRef } = usePopoverHover();
 
@@ -78,6 +78,7 @@ export function NavList({
     !!data.children && (
       <NavDropdown
         disableScrollLock
+        aria-hidden={!open}
         id={id}
         open={open}
         anchorEl={anchorEl}
@@ -117,12 +118,7 @@ export function NavList({
   return (
     <NavLi disabled={data.disabled}>
       {renderNavItem()}
-      {/*
-       * TODO: Should be removed in MUI next.
-       * Add `open` condition to disable transition effect on close.
-       * https://github.com/mui/material-ui/issues/43106
-       */}
-      {open && renderDropdown()}
+      {renderDropdown()}
     </NavLi>
   );
 }

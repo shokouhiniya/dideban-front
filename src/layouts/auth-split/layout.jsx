@@ -15,10 +15,8 @@ import { Logo } from 'src/components/logo';
 
 import { AuthSplitSection } from './section';
 import { AuthSplitContent } from './content';
-import { MainSection } from '../core/main-section';
-import { LayoutSection } from '../core/layout-section';
-import { HeaderSection } from '../core/header-section';
 import { SettingsButton } from '../components/settings-button';
+import { MainSection, LayoutSection, HeaderSection } from '../core';
 
 // ----------------------------------------------------------------------
 
@@ -67,9 +65,7 @@ export function AuthSplitLayout({ sx, cssVars, children, slotProps, layoutQuery 
         slotProps={merge(headerSlotProps, slotProps?.header?.slotProps ?? {})}
         sx={[
           { position: { [layoutQuery]: 'fixed' } },
-          ...(Array.isArray(slotProps?.header?.sx)
-            ? (slotProps?.header?.sx ?? [])
-            : [slotProps?.header?.sx]),
+          ...(Array.isArray(slotProps?.header?.sx) ? slotProps.header.sx : [slotProps?.header?.sx]),
         ]}
       />
     );
@@ -82,9 +78,7 @@ export function AuthSplitLayout({ sx, cssVars, children, slotProps, layoutQuery 
       {...slotProps?.main}
       sx={[
         (theme) => ({ [theme.breakpoints.up(layoutQuery)]: { flexDirection: 'row' } }),
-        ...(Array.isArray(slotProps?.main?.sx)
-          ? (slotProps?.main?.sx ?? [])
-          : [slotProps?.main?.sx]),
+        ...(Array.isArray(slotProps?.main?.sx) ? slotProps.main.sx : [slotProps?.main?.sx]),
       ]}
     >
       <AuthSplitSection

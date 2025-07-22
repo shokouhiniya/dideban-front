@@ -2,11 +2,11 @@ import SvgIcon from '@mui/material/SvgIcon';
 
 // ----------------------------------------------------------------------
 
-/**
- * Icons
- */
-/** https://icon-sets.iconify.design/eva/arrow-ios-downward-fill/ */
+/* **********************************************************************
+ * ♉️ Custom icons
+ * **********************************************************************/
 const ArrowDownIcon = (props) => (
+  // https://icon-sets.iconify.design/eva/arrow-ios-downward-fill/
   <SvgIcon {...props}>
     <path
       fill="currentColor"
@@ -15,48 +15,46 @@ const ArrowDownIcon = (props) => (
   </SvgIcon>
 );
 
-// ----------------------------------------------------------------------
+const arrowStyles = {
+  right: 10,
+  width: 18,
+  height: 18,
+  top: 'calc(50% - 9px)',
+};
 
+/* **********************************************************************
+ * 🧩 Components
+ * **********************************************************************/
 const MuiSelect = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { IconComponent: ArrowDownIcon },
-
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
+  defaultProps: {
+    IconComponent: ArrowDownIcon,
+  },
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
     icon: {
-      right: 10,
-      width: 18,
-      height: 18,
-      top: 'calc(50% - 9px)',
+      ...arrowStyles,
     },
   },
 };
-
-// ----------------------------------------------------------------------
 
 const MuiNativeSelect = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { IconComponent: ArrowDownIcon },
-
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
+  defaultProps: {
+    IconComponent: ArrowDownIcon,
+  },
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
     icon: {
-      right: 10,
-      width: 18,
-      height: 18,
-      top: 'calc(50% - 9px)',
+      ...arrowStyles,
     },
   },
 };
 
-// ----------------------------------------------------------------------
-
-export const select = { MuiSelect, MuiNativeSelect };
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
+export const select = {
+  MuiSelect,
+  MuiNativeSelect,
+};

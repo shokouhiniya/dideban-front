@@ -24,6 +24,7 @@ const ICONS = {
   kanban: icon('ic-kanban'),
   folder: icon('ic-folder'),
   course: icon('ic-course'),
+  params: icon('ic-params'),
   banking: icon('ic-banking'),
   booking: icon('ic-booking'),
   invoice: icon('ic-invoice'),
@@ -31,11 +32,11 @@ const ICONS = {
   calendar: icon('ic-calendar'),
   disabled: icon('ic-disabled'),
   external: icon('ic-external'),
+  subpaths: icon('ic-subpaths'),
   menuItem: icon('ic-menu-item'),
   ecommerce: icon('ic-ecommerce'),
   analytics: icon('ic-analytics'),
   dashboard: icon('ic-dashboard'),
-  parameter: icon('ic-parameter'),
 };
 
 // ----------------------------------------------------------------------

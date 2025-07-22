@@ -22,23 +22,22 @@ export function ScrollProgress({
   variant,
   slotProps,
   className,
+  progress,
   thickness = 3.6,
   whenScroll = 'y',
   color = 'primary',
-  progress: progressProps,
   ...other
 }) {
   const theme = useTheme();
 
   const isRtl = theme.direction === 'rtl';
 
-  const transformProgress = useTransform(progressProps, [0, -1], [0, 1]);
+  const transformProgress = useTransform(progress, [0, -1], [0, 1]);
 
-  const progress = isRtl && whenScroll === 'x' ? transformProgress : progressProps;
-
-  const scaleX = useSpring(progress, { stiffness: 100, damping: 30, restDelta: 0.001 });
-
+  const progressValue = isRtl && whenScroll === 'x' ? transformProgress : progress;
   const progressSize = variant === 'circular' ? (size ?? 64) : (size ?? 3);
+
+  const scaleX = useSpring(progressValue, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   const renderCircular = () => (
     <CircularRoot
@@ -68,7 +67,7 @@ export function ScrollProgress({
         cy={progressSize / 2}
         r={progressSize / 2 - thickness - 4}
         strokeWidth={thickness}
-        style={{ pathLength: progress }}
+        style={{ pathLength: progressValue }}
       />
     </CircularRoot>
   );

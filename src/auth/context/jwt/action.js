@@ -5,12 +5,11 @@ import axios, { endpoints } from 'src/lib/axios';
 import { setSession } from './utils';
 import { JWT_STORAGE_KEY } from './constant';
 
+// ----------------------------------------------------------------------
+
 /** **************************************
  * Sign in
  *************************************** */
-
-// ----------------------------------------------------------------------
-
 export const signInWithPassword = async ({ email, password }) => {
   try {
     const params = { email, password };
@@ -33,9 +32,6 @@ export const signInWithPassword = async ({ email, password }) => {
 /** **************************************
  * Sign up
  *************************************** */
-
-// ----------------------------------------------------------------------
-
 export const signUp = async ({ email, password, firstName, lastName }) => {
   const params = {
     email,
@@ -63,9 +59,6 @@ export const signUp = async ({ email, password, firstName, lastName }) => {
 /** **************************************
  * Sign out
  *************************************** */
-
-// ----------------------------------------------------------------------
-
 export const signOut = async () => {
   try {
     await setSession(null);

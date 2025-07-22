@@ -1,10 +1,13 @@
 import { borderGradient } from './border';
 import { maxLine, textGradient } from './text';
 import { bgBlur, bgGradient } from './background';
-import { paperStyles, menuItemStyles } from './global-styles-components';
+import { softStyles, paperStyles, filledStyles, menuItemStyles } from './global-styles-components';
 
 // ----------------------------------------------------------------------
 
+/* **********************************************************************
+ * 📦 Final
+ * **********************************************************************/
 export const mixins = {
   hideScrollX: {
     msOverflowStyle: 'none',
@@ -18,11 +21,13 @@ export const mixins = {
     overflowY: 'auto',
     '&::-webkit-scrollbar': { display: 'none' },
   },
-  borderGradient,
-  bgGradient,
   bgBlur,
-  textGradient,
-  paperStyles,
-  menuItemStyles,
   maxLine,
+  bgGradient,
+  softStyles,
+  paperStyles,
+  textGradient,
+  filledStyles,
+  borderGradient,
+  menuItemStyles,
 };

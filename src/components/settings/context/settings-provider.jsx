@@ -69,5 +69,5 @@ export function SettingsProvider({
     [canReset, onReset, openDrawer, onCloseDrawer, onToggleDrawer, state, setField, setState]
   );
 
-  return <SettingsContext.Provider value={memoizedValue}>{children}</SettingsContext.Provider>;
+  return <SettingsContext value={memoizedValue}>{children}</SettingsContext>;
 }

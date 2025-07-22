@@ -6,12 +6,13 @@ import { createShadowColor } from '../core/custom-shadows';
 // ----------------------------------------------------------------------
 
 /**
- * Update the core theme with the settings state.
- * @contrast
- * @primaryColor
+ * Updates the core theme with the provided settings state.
+ * @param theme - The base theme options to update.
+ * @param settingsState - The settings state containing direction, fontFamily, contrast, and primaryColor.
+ * @returns Updated theme options with applied settings.
  */
 
-export function updateCoreWithSettings(theme, settingsState) {
+export function applySettingsToTheme(theme, settingsState) {
   const {
     direction,
     fontFamily,
@@ -22,21 +23,21 @@ export function updateCoreWithSettings(theme, settingsState) {
   const isDefaultContrast = contrast === 'default';
   const isDefaultPrimaryColor = primaryColor === 'default';
 
-  const lightPalette = theme.colorSchemes?.light.palette;
+  const lightPalette = theme.colorSchemes?.light?.palette;
 
-  const updatedPrimaryColor = createPaletteChannel(primaryColorPresets[primaryColor]);
-  // const updatedSecondaryColor = createPaletteChannel(SECONDARY_COLORS[primaryColor!]);
+  const primaryColorPalette = createPaletteChannel(primaryColorPresets[primaryColor]);
+  // const secondaryColorPalette = createPaletteChannel(secondaryColorPresets[primaryColor]);
 
-  const updateColorScheme = (scheme) => {
-    const colorSchemes = theme.colorSchemes?.[scheme];
+  const updateColorScheme = (schemeName) => {
+    const currentScheme = theme.colorSchemes?.[schemeName];
 
     const updatedPalette = {
-      ...colorSchemes?.palette,
+      ...currentScheme?.palette,
       ...(!isDefaultPrimaryColor && {
-        primary: updatedPrimaryColor,
-        // secondary: updatedSecondaryColor,
+        primary: primaryColorPalette,
+        // secondary: secondaryColorPalette,
       }),
-      ...(scheme === 'light' && {
+      ...(schemeName === 'light' && {
         background: {
           ...lightPalette?.background,
           ...(!isDefaultContrast && {
@@ -48,15 +49,15 @@ export function updateCoreWithSettings(theme, settingsState) {
     };
 
     const updatedCustomShadows = {
-      ...colorSchemes?.customShadows,
+      ...currentScheme?.customShadows,
       ...(!isDefaultPrimaryColor && {
-        primary: createShadowColor(updatedPrimaryColor.mainChannel),
-        // secondary: createShadowColor(updatedSecondaryColor.mainChannel),
+        primary: createShadowColor(primaryColorPalette.mainChannel),
+        // secondary: createShadowColor(secondaryColorPalette.mainChannel),
       }),
     };
 
     return {
-      ...colorSchemes,
+      ...currentScheme,
       palette: updatedPalette,
       customShadows: updatedCustomShadows,
     };

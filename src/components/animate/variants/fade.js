@@ -11,44 +11,28 @@ export const varFade = (direction, options) => {
     /**** In ****/
     in: {
       initial: { opacity: 0 },
-      animate: { opacity: 1, transition: transitionEnter },
-      exit: { opacity: 0, transition: transitionExit },
+      animate: { opacity: 1, transition: transitionEnter() },
+      exit: { opacity: 0, transition: transitionExit() },
     },
     inUp: {
       initial: { y: distance, opacity: 0 },
       animate: { y: 0, opacity: 1, transition: transitionEnter(transitionIn) },
-      exit: {
-        y: distance,
-        opacity: 0,
-        transition: transitionExit(transitionOut),
-      },
+      exit: { y: distance, opacity: 0, transition: transitionExit(transitionOut) },
     },
     inDown: {
       initial: { y: -distance, opacity: 0 },
       animate: { y: 0, opacity: 1, transition: transitionEnter(transitionIn) },
-      exit: {
-        y: -distance,
-        opacity: 0,
-        transition: transitionExit(transitionOut),
-      },
+      exit: { y: -distance, opacity: 0, transition: transitionExit(transitionOut) },
     },
     inLeft: {
       initial: { x: -distance, opacity: 0 },
       animate: { x: 0, opacity: 1, transition: transitionEnter(transitionIn) },
-      exit: {
-        x: -distance,
-        opacity: 0,
-        transition: transitionExit(transitionOut),
-      },
+      exit: { x: -distance, opacity: 0, transition: transitionExit(transitionOut) },
     },
     inRight: {
       initial: { x: distance, opacity: 0 },
       animate: { x: 0, opacity: 1, transition: transitionEnter(transitionIn) },
-      exit: {
-        x: distance,
-        opacity: 0,
-        transition: transitionExit(transitionOut),
-      },
+      exit: { x: distance, opacity: 0, transition: transitionExit(transitionOut) },
     },
     /**** Out ****/
     out: {

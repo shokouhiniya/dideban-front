@@ -1,12 +1,29 @@
+import { parseCssVar } from 'minimal-shared/utils';
+
 // ----------------------------------------------------------------------
 
 const MuiStepConnector = {
-  /** **************************************
-   * STYLE
-   *************************************** */
-  styleOverrides: { line: ({ theme }) => ({ borderColor: theme.vars.palette.divider }) },
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
+  styleOverrides: {
+    root: ({ theme }) => ({
+      [parseCssVar(theme.vars.palette.StepConnector.border)]: theme.vars.palette.divider,
+    }),
+  },
 };
 
-// ----------------------------------------------------------------------
+const MuiStepContent = {
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
+  styleOverrides: {
+    root: ({ theme }) => ({
+      [parseCssVar(theme.vars.palette.StepContent.border)]: theme.vars.palette.divider,
+    }),
+  },
+};
 
-export const stepper = { MuiStepConnector };
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
+export const stepper = {
+  MuiStepConnector,
+  MuiStepContent,
+};

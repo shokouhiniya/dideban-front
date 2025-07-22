@@ -2,87 +2,117 @@ import { varAlpha } from 'minimal-shared/utils';
 
 import { toggleButtonClasses } from '@mui/material/ToggleButton';
 
-// ----------------------------------------------------------------------
-
-const COLORS = ['primary', 'secondary', 'info', 'success', 'warning', 'error'];
+import { colorKeys } from '../palette';
 
 // ----------------------------------------------------------------------
 
-function styleColors(ownerState, styles) {
-  const outputStyle = COLORS.reduce((acc, color) => {
-    if (!ownerState.disabled && ownerState.color === color) {
-      acc = styles(color);
-    }
-    return acc;
-  }, {});
-
-  return outputStyle;
-}
-
-// ----------------------------------------------------------------------
-
-const MuiToggleButton = {
-  /** **************************************
-   * STYLE
-   *************************************** */
-  styleOverrides: {
-    root: ({ theme, ownerState }) => {
-      const styled = {
-        colors: styleColors(ownerState, (color) => ({
-          '&:hover': {
-            borderColor: varAlpha(theme.vars.palette[color].mainChannel, 0.48),
-            backgroundColor: varAlpha(
-              theme.vars.palette[color].mainChannel,
-              theme.vars.palette.action.hoverOpacity
-            ),
-          },
-        })),
-        selected: {
-          [`&.${toggleButtonClasses.selected}`]: {
-            borderColor: 'currentColor',
-            boxShadow: '0 0 0 0.75px currentColor',
-          },
-        },
-        disabled: {
-          ...(ownerState.disabled && {
-            [`&.${toggleButtonClasses.selected}`]: {
-              color: theme.vars.palette.action.disabled,
-              backgroundColor: theme.vars.palette.action.selected,
-              borderColor: theme.vars.palette.action.disabledBackground,
-            },
-          }),
-        },
-      };
-
-      return {
-        fontWeight: theme.typography.fontWeightSemiBold,
-        ...styled.colors,
-        ...styled.selected,
-        ...styled.disabled,
-      };
-    },
-  },
+const SIZES = ['small', 'medium', 'large'];
+const DIMENSIONS = {
+  small: { '--size': '40px', '--padding': '7px' },
+  medium: { '--size': '48px', '--padding': '11px' },
+  large: { '--size': '56px', '--padding': '15px' },
+  group: { '--group-gap': '4px' },
 };
 
-// ----------------------------------------------------------------------
+/* **********************************************************************
+ * 🗳️ Variants
+ * **********************************************************************/
+const colorVariants = [
+  ...colorKeys.palette.map((colorKey) => ({
+    props: (props) => props.color === colorKey,
+    style: ({ theme }) => ({
+      '&:hover': {
+        borderColor: varAlpha(
+          theme.vars.palette[colorKey].mainChannel,
+          theme.vars.opacity.outlined.border
+        ),
+        backgroundColor: varAlpha(
+          theme.vars.palette[colorKey].mainChannel,
+          theme.vars.palette.action.hoverOpacity
+        ),
+      },
+    }),
+  })),
+];
 
-const MuiToggleButtonGroup = {
-  /** **************************************
-   * STYLE
-   *************************************** */
+const sizeVariants = [
+  ...SIZES.map((size) => ({
+    props: (props) => props.size === size,
+    style: { ...DIMENSIONS[size] },
+  })),
+];
+
+const standaloneStateVariants = [
+  {
+    props: {},
+    style: ({ theme }) => ({
+      [`&.${toggleButtonClasses.selected}`]: {
+        borderColor: 'currentColor',
+        boxShadow: '0 0 0 0.75px currentColor',
+      },
+      [`&.${toggleButtonClasses.disabled}`]: {
+        boxShadow: 'none',
+        color: theme.vars.palette.action.disabled,
+        borderColor: theme.vars.palette.action.disabledBackground,
+        [`&.${toggleButtonClasses.selected}`]: {
+          backgroundColor: theme.vars.palette.action.disabledBackground,
+        },
+      },
+    }),
+  },
+];
+
+const groupedStateVariants = [
+  {
+    props: {},
+    style: {
+      [`&.${toggleButtonClasses.selected}`]: { boxShadow: 'none' },
+      [`&.${toggleButtonClasses.disabled}`]: { border: 'none' },
+    },
+  },
+];
+
+/* **********************************************************************
+ * 🧩 Components
+ * **********************************************************************/
+const MuiToggleButton = {
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
     root: ({ theme }) => ({
-      gap: 4,
-      padding: 4,
-      border: `solid 1px ${varAlpha(theme.vars.palette.grey['500Channel'], 0.08)}`,
+      gap: 8,
+      minWidth: 'var(--size)',
+      minHeight: 'var(--size)',
+      padding: 'var(--padding)',
+      fontWeight: theme.typography.fontWeightSemiBold,
+      variants: [...colorVariants, ...sizeVariants, ...standaloneStateVariants],
     }),
-    grouped: {
-      [`&.${toggleButtonClasses.root}`]: { border: 'none', borderRadius: 'inherit' },
-      [`&.${toggleButtonClasses.selected}`]: { boxShadow: 'none' },
-    },
   },
 };
 
-// ----------------------------------------------------------------------
+const MuiToggleButtonGroup = {
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
+  styleOverrides: {
+    root: ({ theme }) => ({
+      ...DIMENSIONS.group,
+      gap: 'var(--group-gap)',
+      padding: 'var(--group-gap)',
+      border: `1px solid ${theme.vars.palette.shared.paperOutlined}`,
+    }),
+    grouped: () => ({
+      border: 'none',
+      borderRadius: 'inherit',
+      padding: 'calc(var(--padding) - var(--group-gap))',
+      minWidth: 'calc(var(--size) - (var(--group-gap) * 2 + 2px))',
+      minHeight: 'calc(var(--size) - (var(--group-gap) * 2 + 2px))',
+      variants: [...groupedStateVariants],
+    }),
+  },
+};
 
-export const toggleButton = { MuiToggleButton, MuiToggleButtonGroup };
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
+export const toggleButton = {
+  MuiToggleButton,
+  MuiToggleButtonGroup,
+};

@@ -30,7 +30,7 @@ To set up your local server:
 
 **Guide:** [https://docs.minimals.cc/mock-server](https://docs.minimals.cc/mock-server).
 
-**Resource:** [Download](https://www.dropbox.com/sh/6ojn099upi105tf/AACpmlqrNUacwbBfVdtt2t6va?dl=0).
+**Resource:** [Download](https://www.dropbox.com/scl/fo/bopqsyaatc8fbquswxwww/AKgu6V6ZGmxtu22MuzsL5L4?rlkey=8s55vnilwz2d8nsrcmdo2a6ci&dl=0).
 
 ---
 

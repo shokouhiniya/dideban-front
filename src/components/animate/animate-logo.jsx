@@ -25,9 +25,7 @@ export function AnimateLogoZoom({ logo, slotProps, sx, ...other }) {
             {...slotProps?.logo}
             sx={[
               { width: 64, height: 64 },
-              ...(Array.isArray(slotProps?.logo?.sx)
-                ? (slotProps?.logo?.sx ?? [])
-                : [slotProps?.logo?.sx]),
+              ...(Array.isArray(slotProps?.logo?.sx) ? slotProps.logo.sx : [slotProps?.logo?.sx]),
             ]}
           />
         )}
@@ -89,9 +87,7 @@ export function AnimateLogoRotate({ logo, sx, slotProps, ...other }) {
           {...slotProps?.logo}
           sx={[
             { zIndex: 9, width: 40, height: 40 },
-            ...(Array.isArray(slotProps?.logo?.sx)
-              ? (slotProps?.logo?.sx ?? [])
-              : [slotProps?.logo?.sx]),
+            ...(Array.isArray(slotProps?.logo?.sx) ? slotProps.logo.sx : [slotProps?.logo?.sx]),
           ]}
         />
       )}

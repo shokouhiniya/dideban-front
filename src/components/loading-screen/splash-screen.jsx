@@ -9,14 +9,14 @@ import { AnimateLogoZoom } from '../animate';
 
 // ----------------------------------------------------------------------
 
-export function SplashScreen({ portal = true, slotProps, sx, ...other }) {
+export function SplashScreen({ portal = true, slots, slotProps, sx, ...other }) {
   const PortalWrapper = portal ? Portal : Fragment;
 
   return (
     <PortalWrapper>
       <LoadingWrapper {...slotProps?.wrapper}>
         <LoadingContent sx={sx} {...other}>
-          <AnimateLogoZoom />
+          {slots?.logo ?? <AnimateLogoZoom {...slotProps?.logo} />}
         </LoadingContent>
       </LoadingWrapper>
     </PortalWrapper>

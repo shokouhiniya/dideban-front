@@ -4,57 +4,116 @@ import { switchClasses } from '@mui/material/Switch';
 
 // ----------------------------------------------------------------------
 
-const MuiSwitch = {
-  /** **************************************
-   * STYLE
-   *************************************** */
-  styleOverrides: {
-    root: { alignItems: 'center' },
-    switchBase: ({ ownerState, theme }) => ({
-      top: 'unset',
-      transform: 'translateX(6px)',
+const DIMENSIONS = {
+  small: { thumb: 10, track: 16, trackRadius: 8, translateX: '10px' },
+  medium: { thumb: 14, track: 20, trackRadius: 10, translateX: '14px' },
+};
+
+/* **********************************************************************
+ * 🗳️ Variants
+ * **********************************************************************/
+const colorVariants = [
+  {
+    props: (props) => props.color === 'default',
+    style: ({ theme }) => ({
       [`&.${switchClasses.checked}`]: {
-        [`& .${switchClasses.thumb}`]: {
-          ...(ownerState.color === 'default' && {
-            ...theme.applyStyles('dark', {
-              color: theme.vars.palette.grey[800],
-            }),
-          }),
+        [`& + .${switchClasses.track}`]: {
+          backgroundColor: theme.vars.palette.text.primary,
         },
-        [`&+.${switchClasses.track}`]: {
-          opacity: 1,
-          ...(ownerState.color === 'default' && {
-            backgroundColor: theme.vars.palette.text.primary,
-          }),
-        },
-      },
-      [`&.${switchClasses.disabled}`]: {
         [`& .${switchClasses.thumb}`]: {
-          opacity: 1,
           ...theme.applyStyles('dark', {
-            opacity: 0.48,
+            color: theme.vars.palette.grey[800],
           }),
         },
-        [`&+.${switchClasses.track}`]: { opacity: 0.48 },
       },
+    }),
+  },
+];
+
+const sizeVariants = [
+  {
+    props: (props) => props.size === 'small',
+    style: {
+      [`& .${switchClasses.switchBase}`]: {
+        [`&.${switchClasses.checked}`]: {
+          transform: `translateX(${DIMENSIONS.small.translateX})`,
+        },
+      },
+      [`& .${switchClasses.thumb}`]: {
+        width: DIMENSIONS.small.thumb,
+        height: DIMENSIONS.small.thumb,
+      },
+      [`& .${switchClasses.track}`]: {
+        height: DIMENSIONS.small.track,
+        borderRadius: DIMENSIONS.small.trackRadius,
+      },
+    },
+  },
+];
+
+const disabledVariants = [
+  {
+    props: {},
+    style: ({ theme }) => ({
+      [`&.${switchClasses.disabled}`]: {
+        [`& + .${switchClasses.track}`]: {
+          opacity: theme.vars.opacity.switchTrackDisabled,
+        },
+        [`& .${switchClasses.thumb}`]: {
+          ...theme.applyStyles('dark', {
+            opacity: theme.vars.opacity.switchTrackDisabled,
+          }),
+        },
+      },
+    }),
+  },
+];
+
+const checkedVariants = [
+  {
+    props: {},
+    style: ({ theme }) => ({
+      [`&.${switchClasses.checked}`]: {
+        transform: `translateX(${DIMENSIONS.medium.translateX})`,
+        [`& + .${switchClasses.track}`]: {
+          opacity: theme.vars.opacity.switchTrack,
+        },
+      },
+    }),
+  },
+];
+
+/* **********************************************************************
+ * 🧩 Components
+ * **********************************************************************/
+const MuiSwitch = {
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
+  styleOverrides: {
+    root: {
+      alignItems: 'center',
+      variants: [...sizeVariants],
+    },
+    switchBase: {
+      top: 'auto',
+      left: '6px',
+      variants: [...colorVariants, ...disabledVariants, ...checkedVariants],
+    },
+    thumb: ({ theme }) => ({
+      width: DIMENSIONS.medium.thumb,
+      height: DIMENSIONS.medium.thumb,
+      color: theme.vars.palette.common.white,
     }),
     track: ({ theme }) => ({
-      opacity: 1,
-      borderRadius: 10,
+      height: DIMENSIONS.medium.track,
+      borderRadius: DIMENSIONS.medium.trackRadius,
       backgroundColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.48),
     }),
-    thumb: ({ theme }) => ({ color: theme.vars.palette.common.white }),
-    sizeMedium: {
-      [`& .${switchClasses.track}`]: { height: 20 },
-      [`& .${switchClasses.thumb}`]: { width: 14, height: 14 },
-    },
-    sizeSmall: {
-      [`& .${switchClasses.track}`]: { height: 16 },
-      [`& .${switchClasses.thumb}`]: { width: 10, height: 10 },
-    },
   },
 };
 
-// ----------------------------------------------------------------------
-
-export const switches = { MuiSwitch };
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
+export const switches = {
+  MuiSwitch,
+};

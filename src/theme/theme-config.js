@@ -4,15 +4,22 @@ export const themeConfig = {
   /** **************************************
    * Base
    *************************************** */
-  direction: 'rtl',
   defaultMode: 'light',
   modeStorageKey: 'theme-mode',
+  direction: 'ltr',
   classesPrefix: 'minimal',
+  /** **************************************
+   * Css variables
+   *************************************** */
+  cssVariables: {
+    cssVarPrefix: '',
+    colorSchemeSelector: 'data-color-scheme',
+  },
   /** **************************************
    * Typography
    *************************************** */
   fontFamily: {
-    primary: 'Vazirmatn Variable',
+    primary: 'Public Sans Variable',
     secondary: 'Barlow',
   },
   /** **************************************
@@ -79,13 +86,9 @@ export const themeConfig = {
       800: '#1C252E',
       900: '#141A21',
     },
-    common: { black: '#000000', white: '#FFFFFF' },
-  },
-  /** **************************************
-   * Css variables
-   *************************************** */
-  cssVariables: {
-    cssVarPrefix: '',
-    colorSchemeSelector: 'data-color-scheme',
+    common: {
+      black: '#000000',
+      white: '#FFFFFF',
+    },
   },
 };

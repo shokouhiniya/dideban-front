@@ -35,4 +35,3 @@ build
 .vscode
 tsconfig.tsbuildinfo
 .ncurc.js
-.idea

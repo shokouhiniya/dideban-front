@@ -2,8 +2,6 @@
 
 const POPOVER_DISTANCE = 0.75;
 
-// ----------------------------------------------------------------------
-
 export function calculateAnchorOrigin(arrow) {
   let props;
 

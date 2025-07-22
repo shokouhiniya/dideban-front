@@ -1,15 +1,16 @@
 import { useEffect } from 'react';
 import createCache from '@emotion/cache';
-import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
+
+import rtlPlugin from '@mui/stylis-plugin-rtl';
 
 // ----------------------------------------------------------------------
 
-const cacheRtl = createCache({
-  key: 'rtl',
-  prepend: true,
-  stylisPlugins: [rtlPlugin],
-});
+const cacheRtl = () =>
+  createCache({
+    key: 'rtl',
+    stylisPlugins: [rtlPlugin],
+  });
 
 export function Rtl({ children, direction }) {
   useEffect(() => {
@@ -17,7 +18,7 @@ export function Rtl({ children, direction }) {
   }, [direction]);
 
   if (direction === 'rtl') {
-    return <CacheProvider value={cacheRtl}>{children}</CacheProvider>;
+    return <CacheProvider value={cacheRtl()}>{children}</CacheProvider>;
   }
 
   return <>{children}</>;

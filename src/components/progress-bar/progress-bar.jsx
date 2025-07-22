@@ -3,84 +3,117 @@
 import './styles.css';
 
 import NProgress from 'nprogress';
-import { Suspense, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
+import { isEqualPath } from 'minimal-shared/utils';
 
-import { useRouter, usePathname, useSearchParams } from 'src/routes/hooks';
+import { usePathname } from 'src/routes/hooks';
 
 // ----------------------------------------------------------------------
 
-/**
- * Handles anchor click events to start the progress bar if the target URL is different from the current URL.
- * @param event - The mouse event triggered by clicking an anchor element.
- */
-const handleAnchorClick = (event) => {
-  const targetUrl = event.currentTarget.href;
-  const currentUrl = window.location.href;
+//  Checks if an anchor element is valid for triggering the progress bar.
+function isValidAnchor(element) {
+  if (!element) return false;
 
-  if (targetUrl !== currentUrl) {
-    NProgress.start();
-  }
-};
+  const href = element.getAttribute('href')?.trim() ?? '';
+  const target = element.getAttribute('target');
+  const rel = element.getAttribute('rel');
 
-/**
- * Handles DOM mutations to add click event listeners to anchor elements.
- */
-const handleMutation = () => {
-  const anchorElements = document.querySelectorAll('a[href]');
+  return (
+    href.startsWith('/') &&
+    target !== '_blank' &&
+    (!rel || !['noopener', 'noreferrer'].some((v) => rel.includes(v)))
+  );
+}
 
-  const filteredAnchors = Array.from(anchorElements).filter((element) => {
-    const rel = element.getAttribute('rel');
-    const href = element.getAttribute('href');
-    const target = element.getAttribute('target');
+// ----------------------------------------------------------------------
 
-    return href?.startsWith('/') && target !== '_blank' && rel !== 'noopener';
-  });
+function useProgressBar() {
+  const pathname = usePathname();
+  const currentUrlRef = useRef('');
 
-  filteredAnchors.forEach((anchor) => anchor.addEventListener('click', handleAnchorClick));
-};
+  // Initialize currentUrlRef in the browser
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      currentUrlRef.current = window.location.href;
+    }
+  }, []);
+
+  useEffect(() => {
+    // Starts the progress bar if navigating to a different URL.
+    const handleNavigation = (newUrl) => {
+      try {
+        if (newUrl && !isEqualPath(newUrl, currentUrlRef.current, { deep: false })) {
+          currentUrlRef.current = newUrl;
+          NProgress.start();
+        }
+      } catch (error) {
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Navigation progress error:', error);
+        }
+        NProgress.done();
+      }
+    };
+
+    // Handles anchor tag clicks via event delegation.
+    const handleClickAnchor = (event) => {
+      const target = event.target;
+      const anchor = target.closest('a[href]');
+
+      if (anchor && isValidAnchor(anchor)) {
+        handleNavigation(anchor.href);
+      }
+    };
+
+    // Handles `popstate` events for browser back/forward navigation.
+    const handlePopState = () => {
+      handleNavigation(window.location.href);
+    };
+
+    // Patches a history method to intercept client-side navigations.
+    const patchHistoryMethod = (method) => {
+      const originalMethod = window.history[method];
+
+      window.history[method] = new Proxy(originalMethod, {
+        apply: (target, thisArg, args) => {
+          const newUrl = args[2];
+          if (typeof newUrl === 'string') {
+            handleNavigation(new URL(newUrl, window.location.origin).href);
+          }
+          return target.apply(thisArg, args);
+        },
+      });
+    };
+
+    patchHistoryMethod('pushState');
+    patchHistoryMethod('replaceState');
+
+    document.addEventListener('click', handleClickAnchor);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      document.removeEventListener('click', handleClickAnchor);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  // Completes the progress bar when pathname changes
+  useEffect(() => {
+    const timeout = setTimeout(() => NProgress.done(), 100);
+    return () => clearTimeout(timeout);
+  }, [pathname]);
+}
 
 // ----------------------------------------------------------------------
 
 export function ProgressBar() {
   useEffect(() => {
     NProgress.configure({ showSpinner: false });
-
-    const mutationObserver = new MutationObserver(handleMutation);
-
-    mutationObserver.observe(document, { childList: true, subtree: true });
-
-    window.history.pushState = new Proxy(window.history.pushState, {
-      apply: (target, thisArg, argArray) => {
-        NProgress.done();
-        return target.apply(thisArg, argArray);
-      },
-    });
-
-    // Cleanup function to remove event listeners and observer
     return () => {
-      mutationObserver.disconnect();
-      const anchorElements = document.querySelectorAll('a[href]');
-      anchorElements.forEach((anchor) => anchor.removeEventListener('click', handleAnchorClick));
+      NProgress.done();
     };
   }, []);
 
-  return (
-    <Suspense fallback={null}>
-      <NProgressDone />
-    </Suspense>
-  );
-}
-
-// ----------------------------------------------------------------------
-
-function NProgressDone() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    NProgress.done();
-  }, [pathname, router, searchParams]);
+  useProgressBar();
 
   return null;
 }

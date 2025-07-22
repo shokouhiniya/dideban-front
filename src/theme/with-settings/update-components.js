@@ -1,42 +1,25 @@
-// ----------------------------------------------------------------------
-
-function getSlotStyles(slot, props) {
-  const slotStyles = typeof slot === 'function' && props ? slot(props) : (slot ?? {});
-
-  return slotStyles;
-}
+import { cardClasses } from '@mui/material/Card';
 
 // ----------------------------------------------------------------------
 
-export function updateComponentsWithSettings(components, settingsState) {
-  const MuiCard = {
-    styleOverrides: {
-      root: (props) => {
-        const { theme } = props;
-
-        const rootStyles = getSlotStyles(components?.MuiCard?.styleOverrides?.root, props);
-
-        return {
-          ...rootStyles,
-          ...(settingsState?.contrast === 'hight' && {
-            boxShadow: theme.vars.customShadows.z1,
-          }),
-        };
-      },
-    },
-  };
-
+export function applySettingsToComponents(settingsState) {
   const MuiCssBaseline = {
-    styleOverrides: {
+    styleOverrides: (theme) => ({
       html: {
         fontSize: settingsState?.fontSize,
       },
-    },
+      body: {
+        [`& .${cardClasses.root}`]: {
+          ...(settingsState?.contrast === 'hight' && {
+            '--card-shadow': theme.vars.customShadows.z1,
+          }),
+        },
+      },
+    }),
   };
 
   return {
     components: {
-      MuiCard,
       MuiCssBaseline,
     },
   };

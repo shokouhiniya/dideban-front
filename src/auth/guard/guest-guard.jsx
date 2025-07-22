@@ -14,11 +14,11 @@ import { useAuthContext } from '../hooks';
 
 export function GuestGuard({ children }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const { loading, authenticated } = useAuthContext();
 
-  const searchParams = useSearchParams();
-  const returnTo = searchParams.get('returnTo') || CONFIG.auth.redirectPath;
+  const returnTo = searchParams.get('returnTo') ?? CONFIG.auth.redirectPath;
 
   const [isChecking, setIsChecking] = useState(true);
 

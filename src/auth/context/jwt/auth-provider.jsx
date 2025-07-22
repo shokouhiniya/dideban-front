@@ -11,6 +11,12 @@ import { setSession, isValidToken } from './utils';
 
 // ----------------------------------------------------------------------
 
+/**
+ * NOTE:
+ * We only build demo at basic level.
+ * Customer will need to do some extra handling yourself if you want to extend the logic and other features...
+ */
+
 export function AuthProvider({ children }) {
   const { state, setState } = useSetState({ user: null, loading: true });
 

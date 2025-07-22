@@ -8,13 +8,24 @@ import LinearProgress from '@mui/material/LinearProgress';
 
 // ----------------------------------------------------------------------
 
-export function LoadingScreen({ portal, sx, ...other }) {
+export function LoadingScreen({ portal, slots, slotsProps, sx, ...other }) {
   const PortalWrapper = portal ? Portal : Fragment;
 
   return (
     <PortalWrapper>
       <LoadingContent sx={sx} {...other}>
-        <LinearProgress color="inherit" sx={{ width: 1, maxWidth: 360 }} />
+        {slots?.progress ?? (
+          <LinearProgress
+            color="inherit"
+            sx={[
+              { width: 1, maxWidth: 360 },
+              ...(Array.isArray(slotsProps?.progress?.sx)
+                ? slotsProps.progress.sx
+                : [slotsProps?.progress?.sx]),
+            ]}
+            {...slotsProps?.progress}
+          />
+        )}
       </LoadingContent>
     </PortalWrapper>
   );

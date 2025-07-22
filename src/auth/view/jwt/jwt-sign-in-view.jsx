@@ -47,7 +47,7 @@ export function JwtSignInView() {
 
   const { checkUserSession } = useAuthContext();
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const defaultValues = {
     email: 'demo@minimals.cc',

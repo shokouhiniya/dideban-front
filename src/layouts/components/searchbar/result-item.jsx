@@ -12,7 +12,7 @@ import { Label } from 'src/components/label';
 
 export function ResultItem({ title, path, labels, href, sx, ...other }) {
   const linkProps = isExternalLink(href)
-    ? { target: '_blank', rel: 'noopener noreferrer', href, component: 'a' }
+    ? { component: 'a', href, target: '_blank', rel: 'noopener noreferrer' }
     : { component: RouterLink, href };
 
   return (
@@ -43,7 +43,11 @@ export function ResultItem({ title, path, labels, href, sx, ...other }) {
           <Box
             key={index}
             component="span"
-            sx={{ color: part.highlight ? 'primary.main' : 'text.primary' }}
+            sx={{
+              ...(part.highlight && {
+                color: 'primary.main',
+              }),
+            }}
           >
             {part.text}
           </Box>
@@ -52,7 +56,13 @@ export function ResultItem({ title, path, labels, href, sx, ...other }) {
           <Box
             key={index}
             component="span"
-            sx={{ color: part.highlight ? 'primary.main' : 'text.secondary' }}
+            sx={{
+              color: 'text.secondary',
+              ...(part.highlight && {
+                color: 'primary.main',
+                fontWeight: 'fontWeightSemiBold',
+              }),
+            }}
           >
             {part.text}
           </Box>

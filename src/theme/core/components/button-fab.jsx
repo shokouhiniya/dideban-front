@@ -1,210 +1,199 @@
-import { varAlpha } from 'minimal-shared/utils';
+import { pxToRem, varAlpha } from 'minimal-shared/utils';
 
 import { fabClasses } from '@mui/material/Fab';
 
+import { colorKeys } from '../palette';
+
 // ----------------------------------------------------------------------
 
-const COLORS = ['primary', 'secondary', 'info', 'success', 'warning', 'error'];
+const baseColors = ['default', 'inherit'];
+const allColors = [...baseColors, ...colorKeys.palette, ...colorKeys.common];
 
-const DEFAULT_COLORS = ['default', 'inherit'];
-const EXTENDED_VARIANT = ['extended', 'outlinedExtended', 'softExtended'];
-const FILLED_VARIANT = ['circular', 'extended'];
-const OUTLINED_VARIANT = ['outlined', 'outlinedExtended'];
-const SOFT_VARIANT = ['soft', 'softExtended'];
-
-const filledVariant = {
-  colors: COLORS.map((color) => ({
-    props: ({ ownerState }) =>
-      !ownerState.disabled &&
-      FILLED_VARIANT.includes(ownerState.variant) &&
-      ownerState.color === color,
-    style: ({ theme }) => ({
-      boxShadow: theme.vars.customShadows[color],
-      '&:hover': { boxShadow: 'none' },
-    }),
-  })),
-  base: [
-    {
-      props: ({ ownerState }) =>
-        FILLED_VARIANT.includes(ownerState.variant) && DEFAULT_COLORS.includes(ownerState.color),
-      style: ({ theme }) => ({
-        boxShadow: theme.vars.customShadows.z8,
-        /**
-         * @color default
-         */
-        color: theme.vars.palette.grey[800],
-        backgroundColor: theme.vars.palette.grey[300],
-        '&:hover': {
-          boxShadow: 'none',
-          backgroundColor: theme.vars.palette.grey[400],
-        },
-        /**
-         * @color inherit
-         */
-        [`&.${fabClasses.colorInherit}`]: {
-          color: theme.vars.palette.common.white,
-          backgroundColor: theme.vars.palette.text.primary,
-          '&:hover': { backgroundColor: theme.vars.palette.grey[700] },
-          ...theme.applyStyles('dark', {
-            color: theme.vars.palette.grey[800],
-            '&:hover': { backgroundColor: theme.vars.palette.grey[400] },
-          }),
-        },
-      }),
-    },
-  ],
+const VARIANTS = {
+  filled: ['circular', 'extended'],
+  outlined: ['outlined', 'outlinedExtended'],
+  soft: ['soft', 'softExtended'],
+  extended: ['extended', 'outlinedExtended', 'softExtended'],
+};
+const DIMENSIONS = {
+  extendedSmall: {
+    '--size': '36px',
+    padding: '4px 8px',
+    fontSize: pxToRem(13),
+    lineHeight: 22 / 13,
+  },
+  extendedMedium: {
+    '--size': '40px',
+    padding: '6px 12px',
+    fontSize: pxToRem(14),
+    lineHeight: 24 / 14,
+  },
+  extendedLarge: {
+    '--size': '48px',
+    padding: '8px 16px',
+    fontSize: pxToRem(15),
+    lineHeight: 26 / 15,
+  },
 };
 
-const outlinedVariant = {
-  colors: COLORS.map((color) => ({
-    props: ({ ownerState }) =>
-      !ownerState.disabled &&
-      OUTLINED_VARIANT.includes(ownerState.variant) &&
-      ownerState.color === color,
-    style: ({ theme }) => ({
-      color: theme.vars.palette[color].main,
-      border: `solid 1px ${varAlpha(theme.vars.palette[color].mainChannel, 0.48)}`,
-      '&:hover': {
-        backgroundColor: varAlpha(theme.vars.palette[color].mainChannel, 0.08),
-      },
-    }),
-  })),
-  base: [
-    {
-      props: ({ ownerState }) => OUTLINED_VARIANT.includes(ownerState.variant),
-      style: ({ theme }) => ({
-        boxShadow: 'none',
-        backgroundColor: 'transparent',
-        color: theme.vars.palette.text.secondary,
-        border: `solid 1px ${varAlpha(theme.vars.palette.grey['500Channel'], 0.32)}`,
-        '&:hover': {
-          borderColor: 'currentColor',
-          boxShadow: '0 0 0 0.75px currentColor',
-          backgroundColor: theme.vars.palette.action.hover,
-        },
-        [`&.${fabClasses.colorInherit}`]: {
-          color: theme.vars.palette.text.primary,
-        },
-        [`&.${fabClasses.disabled}`]: {
-          backgroundColor: 'transparent',
-          border: `1px solid ${theme.vars.palette.action.disabledBackground}`,
-        },
-      }),
-    },
-  ],
-};
+function isVariant(allowed, variant) {
+  return !!variant && allowed.includes(variant);
+}
 
-const softVariant = {
-  colors: COLORS.map((color) => ({
-    props: ({ ownerState }) =>
-      !ownerState.disabled &&
-      SOFT_VARIANT.includes(ownerState.variant) &&
-      ownerState.color === color,
-    style: ({ theme }) => ({
-      boxShadow: 'none',
-      color: theme.vars.palette[color].dark,
-      backgroundColor: varAlpha(theme.vars.palette[color].mainChannel, 0.16),
-      '&:hover': {
-        boxShadow: 'none',
-        backgroundColor: varAlpha(theme.vars.palette[color].mainChannel, 0.32),
-      },
-      ...theme.applyStyles('dark', {
-        color: theme.vars.palette[color].light,
-      }),
-    }),
-  })),
-  base: [
-    {
-      props: ({ ownerState }) =>
-        SOFT_VARIANT.includes(ownerState.variant) && DEFAULT_COLORS.includes(ownerState.color),
-      style: ({ theme }) => ({
-        /**
-         * @color default
-         */
-        boxShadow: 'none',
-        color: theme.vars.palette.grey[800],
-        backgroundColor: theme.vars.palette.grey[300],
-        '&:hover': {
-          boxShadow: 'none',
-          backgroundColor: theme.vars.palette.grey[400],
-        },
-        /**
-         * @color inherit
-         */
-        [`&.${fabClasses.colorInherit}`]: {
-          color: theme.vars.palette.text.primary,
-          backgroundColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.08),
-          '&:hover': {
-            backgroundColor: varAlpha(theme.vars.palette.grey['500Channel'], 0.24),
-          },
-        },
-      }),
-    },
-  ],
-};
-
-const sizes = [
+/* **********************************************************************
+ * 🗳️ Variants
+ * **********************************************************************/
+const filledVariants = [
   {
-    props: ({ ownerState }) => EXTENDED_VARIANT.includes(ownerState.variant),
+    props: (props) => isVariant(VARIANTS.filled, props.variant) && props.color === 'default',
     style: ({ theme }) => ({
-      height: 48,
-      width: 'auto',
-      minHeight: 48,
-      borderRadius: 48 / 2,
-      gap: theme.spacing(1),
-      padding: theme.spacing(0, 2),
-      [`&.${fabClasses.sizeSmall}`]: {
-        height: 34,
-        minHeight: 34,
-        borderRadius: 34 / 2,
-        gap: theme.spacing(0.5),
-        padding: theme.spacing(0, 1),
+      ...theme.mixins.filledStyles(theme, 'default', { hover: true }),
+      boxShadow: theme.vars.customShadows.z8,
+    }),
+  },
+  {
+    props: (props) => isVariant(VARIANTS.filled, props.variant) && props.color === 'inherit',
+    style: ({ theme }) => ({
+      ...theme.mixins.filledStyles(theme, 'inherit', { hover: true }),
+      boxShadow: theme.vars.customShadows.z8,
+    }),
+  },
+  ...colorKeys.common.map((colorKey) => ({
+    props: (props) => isVariant(VARIANTS.filled, props.variant) && props.color === colorKey,
+    style: ({ theme }) => ({
+      ...theme.mixins.filledStyles(theme, colorKey, { hover: true }),
+      boxShadow: theme.vars.customShadows.z8,
+    }),
+  })),
+  ...colorKeys.palette.map((colorKey) => ({
+    props: (props) => isVariant(VARIANTS.filled, props.variant) && props.color === colorKey,
+    style: ({ theme }) => ({
+      boxShadow: theme.vars.customShadows[colorKey],
+    }),
+  })),
+];
+
+const outlinedVariants = [
+  {
+    props: (props) => isVariant(VARIANTS.outlined, props.variant),
+    style: ({ theme }) => ({
+      borderWidth: 1,
+      boxShadow: 'none',
+      borderStyle: 'solid',
+      backgroundColor: 'transparent',
+      borderColor: varAlpha('currentColor', theme.vars.opacity.outlined.border),
+      '&:hover': {
+        borderColor: 'currentColor',
+        boxShadow: '0 0 0 0.75px currentColor',
+        backgroundColor: varAlpha('currentColor', theme.vars.palette.action.hoverOpacity),
       },
-      [`&.${fabClasses.sizeMedium}`]: {
-        height: 40,
-        minHeight: 40,
-        borderRadius: 40 / 2,
+    }),
+  },
+  {
+    props: (props) =>
+      isVariant(VARIANTS.outlined, props.variant) &&
+      (props.color === 'default' || props.color === 'inherit'),
+    style: ({ theme }) => ({
+      borderColor: theme.vars.palette.shared.buttonOutlined,
+      '&:hover': {
+        backgroundColor: theme.vars.palette.action.hover,
+      },
+    }),
+  },
+  {
+    props: (props) => isVariant(VARIANTS.outlined, props.variant) && props.color === 'default',
+    style: ({ theme }) => ({
+      color: theme.vars.palette.action.active,
+    }),
+  },
+  ...colorKeys.common.map((colorKey) => ({
+    props: (props) => isVariant(VARIANTS.outlined, props.variant) && props.color === colorKey,
+    style: ({ theme }) => ({
+      color: theme.vars.palette.common[colorKey],
+    }),
+  })),
+  ...colorKeys.palette.map((colorKey) => ({
+    props: (props) => isVariant(VARIANTS.outlined, props.variant) && props.color === colorKey,
+    style: ({ theme }) => ({
+      color: theme.vars.palette[colorKey].main,
+    }),
+  })),
+];
+
+const softVariants = [
+  ...allColors.map((colorKey) => ({
+    props: (props) => isVariant(VARIANTS.soft, props.variant) && props.color === colorKey,
+    style: ({ theme }) => ({
+      ...theme.mixins.softStyles(theme, colorKey, { hover: true }),
+    }),
+  })),
+];
+
+const sizeVariants = [
+  {
+    props: (props) => isVariant(VARIANTS.extended, props.variant),
+    style: ({ theme }) => ({
+      width: 'auto',
+      height: 'auto',
+      gap: theme.spacing(1),
+      minWidth: 'var(--size)',
+      minHeight: 'var(--size)',
+      borderRadius: 'calc(var(--size) / 2)',
+    }),
+  },
+  {
+    props: (props) => isVariant(VARIANTS.extended, props.variant) && props.size === 'small',
+    style: { ...DIMENSIONS.extendedSmall },
+  },
+  {
+    props: (props) => isVariant(VARIANTS.extended, props.variant) && props.size === 'medium',
+    style: { ...DIMENSIONS.extendedMedium },
+  },
+  {
+    props: (props) => isVariant(VARIANTS.extended, props.variant) && props.size === 'large',
+    style: { ...DIMENSIONS.extendedLarge },
+  },
+];
+
+const disabledVariants = [
+  {
+    props: (props) => isVariant(VARIANTS.outlined, props.variant),
+    style: ({ theme }) => ({
+      [`&.${fabClasses.disabled}`]: {
+        backgroundColor: 'transparent',
+        borderColor: theme.vars.palette.action.disabledBackground,
       },
     }),
   },
 ];
 
+/* **********************************************************************
+ * 🧩 Components
+ * **********************************************************************/
 const MuiFab = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { color: 'primary' },
-
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
+  defaultProps: {
+    color: 'primary',
+    size: 'medium',
+  },
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
     root: {
+      '&:hover': { boxShadow: 'none' },
       variants: [
-        /**
-         * @variant filled
-         */
-        filledVariant.base,
-        filledVariant.colors,
-        /**
-         * @variant outlined
-         */
-        outlinedVariant.base,
-        outlinedVariant.colors,
-        /**
-         * @variant soft
-         */
-        softVariant.base,
-        softVariant.colors,
-        /**
-         * @sizes
-         */
-        sizes,
-      ].flat(),
+        ...filledVariants,
+        ...outlinedVariants,
+        ...softVariants,
+        ...sizeVariants,
+        ...disabledVariants,
+      ],
     },
   },
 };
 
-// ----------------------------------------------------------------------
-
-export const fab = { MuiFab };
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
+export const fab = {
+  MuiFab,
+};

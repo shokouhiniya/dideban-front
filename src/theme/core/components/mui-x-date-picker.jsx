@@ -1,14 +1,30 @@
 import SvgIcon from '@mui/material/SvgIcon';
 import { buttonClasses } from '@mui/material/Button';
-import { dialogActionsClasses } from '@mui/material/DialogActions';
+import { inputLabelClasses } from '@mui/material/InputLabel';
+import { pickersSectionListClasses } from '@mui/x-date-pickers/PickersSectionList';
+import {
+  pickersInputBaseClasses,
+  pickersFilledInputClasses,
+  pickersOutlinedInputClasses,
+} from '@mui/x-date-pickers/PickersTextField';
+
+import {
+  inputStyles,
+  inputBaseStyles,
+  filledInputStyles,
+  inputBaseVariants,
+  outlinedInputStyles,
+  filledInputVariants,
+  outlinedInputVariants,
+} from './text-field';
 
 // ----------------------------------------------------------------------
 
-/**
- * Icons
- */
-/** https://icon-sets.iconify.design/eva/chevron-down-fill/ */
-const PickerSwitchIcon = (props) => (
+/* **********************************************************************
+ * ♉️ Custom icons
+ * **********************************************************************/
+const SwitchViewIcon = (props) => (
+  // https://icon-sets.iconify.design/eva/chevron-down-fill/
   <SvgIcon {...props}>
     <path
       fill="currentColor"
@@ -17,8 +33,8 @@ const PickerSwitchIcon = (props) => (
   </SvgIcon>
 );
 
-/** https://icon-sets.iconify.design/eva/arrow-ios-back-fill/ */
-const PickerLeftIcon = (props) => (
+const LeftArrowIcon = (props) => (
+  // https://icon-sets.iconify.design/eva/arrow-ios-back-fill/
   <SvgIcon {...props}>
     <path
       fill="currentColor"
@@ -27,8 +43,8 @@ const PickerLeftIcon = (props) => (
   </SvgIcon>
 );
 
-/** https://icon-sets.iconify.design/eva/arrow-ios-forward-fill/ */
-const PickerRightIcon = (props) => (
+const RightArrowIcon = (props) => (
+  // https://icon-sets.iconify.design/eva/arrow-ios-forward-fill/
   <SvgIcon {...props}>
     <path
       fill="currentColor"
@@ -37,8 +53,8 @@ const PickerRightIcon = (props) => (
   </SvgIcon>
 );
 
-/** https://icon-sets.iconify.design/solar/calendar-mark-bold-duotone/ */
-const PickerCalendarIcon = (props) => (
+const CalendarIcon = (props) => (
+  // https://icon-sets.iconify.design/solar/calendar-mark-bold-duotone/
   <SvgIcon {...props}>
     <path
       fill="currentColor"
@@ -53,8 +69,8 @@ const PickerCalendarIcon = (props) => (
   </SvgIcon>
 );
 
-/** https://icon-sets.iconify.design/solar/clock-circle-outline/ */
-const PickerClockIcon = (props) => (
+const ClockIcon = (props) => (
+  // https://icon-sets.iconify.design/solar/clock-circle-outline/
   <SvgIcon {...props}>
     <path
       fill="currentColor"
@@ -65,146 +81,216 @@ const PickerClockIcon = (props) => (
   </SvgIcon>
 );
 
+// ----------------------------------------------------------------------
+
+const baseSlots = {
+  switchViewIcon: SwitchViewIcon,
+  leftArrowIcon: LeftArrowIcon,
+  rightArrowIcon: RightArrowIcon,
+};
+
 const defaultProps = {
-  date: {
-    openPickerIcon: PickerCalendarIcon,
-    leftArrowIcon: PickerLeftIcon,
-    rightArrowIcon: PickerRightIcon,
-    switchViewIcon: PickerSwitchIcon,
-  },
-  time: {
-    openPickerIcon: PickerClockIcon,
-    rightArrowIcon: PickerRightIcon,
-    switchViewIcon: PickerSwitchIcon,
+  dateSlots: { ...baseSlots, openPickerIcon: CalendarIcon },
+  timeSlots: { ...baseSlots, openPickerIcon: ClockIcon },
+  tabs: { dateIcon: <CalendarIcon />, timeIcon: <ClockIcon /> },
+  baseField: {
+    slotProps: {
+      textField: { fullWidth: true },
+    },
   },
 };
 
-const MuiDatePicker = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { slots: defaultProps.date },
-};
-
-const MuiDateTimePicker = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { slots: defaultProps.date },
-};
-
-const MuiStaticDatePicker = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { slots: defaultProps.date },
-};
-
-const MuiDesktopDatePicker = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { slots: defaultProps.date },
-};
-
-const MuiDesktopDateTimePicker = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { slots: defaultProps.date },
-};
-
-const MuiMobileDatePicker = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { slots: defaultProps.date },
-};
-
-const MuiMobileDateTimePicker = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { slots: defaultProps.date },
-};
-
-const MuiTimePicker = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { slots: defaultProps.time },
-};
-
-const MuiMobileTimePicker = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { slots: defaultProps.time },
-};
-
-const MuiStaticTimePicker = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { slots: defaultProps.time },
-};
-
-const MuiDesktopTimePicker = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { slots: defaultProps.time },
-};
-
+/* **********************************************************************
+ * 🧩 Components
+ * **********************************************************************/
 const MuiPickersLayout = {
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
-    root: ({ theme }) => ({
-      [`& .${dialogActionsClasses.root}`]: {
-        [`& .${buttonClasses.root}`]: {
-          [`&:last-of-type`]: {
-            color: theme.vars.palette.common.white,
-            backgroundColor: theme.vars.palette.text.primary,
-            ...theme.applyStyles('dark', {
-              color: theme.vars.palette.grey[800],
-            }),
-          },
+    actionBar: ({ theme }) => ({
+      padding: theme.spacing(2),
+      '& > :not(:first-of-type)': {
+        marginLeft: theme.spacing(1),
+      },
+      [`& .${buttonClasses.root}`]: {
+        '&:last-of-type': {
+          ...theme.mixins.filledStyles(theme, 'inherit', {
+            hover: {
+              boxShadow: theme.vars.customShadows.z8,
+            },
+          }),
         },
       },
     }),
   },
 };
 
-const MuiPickersPopper = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
+const MuiPickerPopper = {
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
     paper: ({ theme }) => ({
       boxShadow: theme.vars.customShadows.dropdown,
-      borderRadius: theme.shape.borderRadius * 1.5,
+      borderRadius: Number(theme.shape.borderRadius) * 1.5,
     }),
   },
 };
 
-// ----------------------------------------------------------------------
+const MuiDateTimePickerTabs = {
+  // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
+  defaultProps: { ...defaultProps.tabs },
+};
 
+const MuiClock = {
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
+  styleOverrides: {
+    clock: ({ theme }) => ({
+      backgroundColor: theme.vars.palette.background.neutral,
+    }),
+  },
+};
+
+const inputComponents = {
+  MuiPickersTextField: {
+    defaultProps: {
+      variant: 'outlined',
+    },
+    styleOverrides: {
+      root: {
+        variants: [
+          {
+            props: (props) => !props.isFieldFocused && !props.isFieldValueEmpty,
+            style: {
+              [`& .${inputLabelClasses.root}[data-shrink="false"] + .${pickersInputBaseClasses.root} > .${pickersSectionListClasses.root}`]:
+                {
+                  opacity: 0,
+                },
+            },
+          },
+        ],
+      },
+    },
+  },
+  MuiPickersInputBase: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        ...inputBaseStyles.root('picker', theme, {
+          input: pickersSectionListClasses.root,
+          disabled: pickersInputBaseClasses.disabled,
+        }),
+      }),
+      sectionsContainer: ({ theme }) => ({
+        ...inputBaseStyles.input('picker', theme),
+        variants: [
+          ...inputBaseVariants.input,
+          {
+            props: (props) => !props.isFieldFocused && !!props.isFieldValueEmpty,
+            style: {
+              opacity: 1,
+              color: theme.vars.palette.text.disabled,
+            },
+          },
+        ],
+      }),
+    },
+  },
+  MuiPickersInput: {
+    styleOverrides: {
+      root: ({ theme }) => inputStyles.root(theme),
+    },
+  },
+  MuiPickersOutlinedInput: {
+    styleOverrides: {
+      root: ({ theme }) => outlinedInputStyles.root(theme, pickersOutlinedInputClasses),
+      sectionsContainer: { variants: [...outlinedInputVariants.input] },
+      notchedOutline: ({ theme }) => outlinedInputStyles.notchedOutline(theme),
+    },
+  },
+  MuiPickersFilledInput: {
+    defaultProps: {
+      disableUnderline: true,
+    },
+    styleOverrides: {
+      root: ({ theme }) => filledInputStyles.root(theme, pickersFilledInputClasses),
+      sectionsContainer: { variants: [...filledInputVariants.input] },
+    },
+  },
+};
+
+const toolbarComponents = {
+  MuiPickersToolbar: {
+    styleOverrides: {
+      content: { marginTop: 8 },
+    },
+  },
+  MuiPickersToolbarButton: {
+    styleOverrides: {
+      root: { minWidth: 36 },
+    },
+  },
+  MuiTimePickerToolbar: {
+    styleOverrides: {
+      separator: { marginLeft: 2, marginRight: 2 },
+      ampmLandscape: { gap: 16, justifyContent: 'flex-start' },
+      ampmLabel: ({ theme }) => ({ ...theme.typography.subtitle1 }),
+    },
+  },
+  MuiDateTimePickerToolbar: {
+    styleOverrides: {
+      separator: { marginLeft: 2, marginRight: 2 },
+      ampmLandscape: { gap: 16, justifyContent: 'flex-start' },
+      ampmLabel: ({ theme }) => ({ ...theme.typography.subtitle1 }),
+      timeDigitsContainer: { alignItems: 'center' },
+    },
+  },
+};
+
+/**
+ * ➤ Date picker
+ * - https://mui.com/x/react-date-pickers/date-picker/
+ */
+const datePickerComponents = {
+  MuiDateField: { defaultProps: { ...defaultProps.baseField } },
+  MuiDatePicker: { defaultProps: { slots: { ...defaultProps.dateSlots } } },
+  MuiDesktopDatePicker: { defaultProps: { slots: { ...defaultProps.dateSlots } } },
+  MuiMobileDatePicker: { defaultProps: { slots: { ...defaultProps.dateSlots } } },
+  MuiStaticDatePicker: { defaultProps: { slots: { ...defaultProps.dateSlots } } },
+};
+
+/**
+ * ➤ Time picker
+ * - https://mui.com/x/react-date-pickers/time-picker/
+ */
+const timePickerComponents = {
+  MuiTimeField: { defaultProps: { ...defaultProps.baseField } },
+  MuiTimePicker: { defaultProps: { slots: { ...defaultProps.timeSlots } } },
+  MuiDesktopTimePicker: { defaultProps: { slots: { ...defaultProps.timeSlots } } },
+  MuiMobileTimePicker: { defaultProps: { slots: { ...defaultProps.timeSlots } } },
+  MuiStaticTimePicker: { defaultProps: { slots: { ...defaultProps.timeSlots } } },
+};
+
+/**
+ * ➤ Date & Time picker
+ * - https://mui.com/x/react-date-pickers/date-time-picker/
+ */
+const dateTimePickerComponents = {
+  MuiDateTimeField: { defaultProps: { ...defaultProps.baseField } },
+  MuiDateTimePicker: { defaultProps: { slots: { ...defaultProps.dateSlots } } },
+  MuiDesktopDateTimePicker: { defaultProps: { slots: { ...defaultProps.dateSlots } } },
+  MuiMobileDateTimePicker: { defaultProps: { slots: { ...defaultProps.dateSlots } } },
+  MuiStaticDateTimePicker: { defaultProps: { slots: { ...defaultProps.dateSlots } } },
+};
+
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
 export const datePicker = {
-  MuiPickersPopper,
+  ...toolbarComponents,
+  MuiClock,
+  MuiPickerPopper,
   MuiPickersLayout,
-  // Date
-  MuiDatePicker,
-  MuiDateTimePicker,
-  MuiStaticDatePicker,
-  MuiDesktopDatePicker,
-  MuiDesktopDateTimePicker,
-  MuiMobileDatePicker,
-  MuiMobileDateTimePicker,
-  // Time
-  MuiTimePicker,
-  MuiMobileTimePicker,
-  MuiStaticTimePicker,
-  MuiDesktopTimePicker,
+  MuiDateTimePickerTabs,
+  /********/
+  ...inputComponents,
+  ...datePickerComponents,
+  ...timePickerComponents,
+  ...dateTimePickerComponents,
 };

@@ -34,7 +34,7 @@ export function CustomPopover({ open, onClose, children, anchorEl, slotProps, ..
               [`& .${listClasses.root}`]: { minWidth: 140 },
               [`& .${menuItemClasses.root}`]: { gap: 2 },
             },
-            ...(Array.isArray(paperProps?.sx) ? (paperProps?.sx ?? []) : [paperProps?.sx]),
+            ...(Array.isArray(paperProps?.sx) ? paperProps.sx : [paperProps?.sx]),
           ],
         },
       }}

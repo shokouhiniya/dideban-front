@@ -1,42 +1,38 @@
 // ----------------------------------------------------------------------
 
 const MuiDialog = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: {
-    /**
-     * TODO: Should be removed in MUI next.
-     * @see https://github.com/mui/material-ui/issues/43106
-     */
-    closeAfterTransition: false,
-  },
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
-    paper: ({ ownerState, theme }) => ({
-      boxShadow: theme.vars.customShadows.dialog,
-      borderRadius: theme.shape.borderRadius * 2,
-      ...(!ownerState.fullScreen && { margin: theme.spacing(2) }),
-    }),
-    paperFullScreen: { borderRadius: 0 },
+    paper: {
+      variants: [
+        {
+          props: (props) => !props.fullScreen,
+          style: ({ theme }) => ({
+            margin: theme.spacing(2),
+            boxShadow: theme.vars.customShadows.dialog,
+            borderRadius: Number(theme.shape.borderRadius) * 2,
+          }),
+        },
+      ],
+    },
   },
 };
 
 const MuiDialogTitle = {
-  /** **************************************
-   * STYLE
-   *************************************** */
-  styleOverrides: { root: ({ theme }) => ({ padding: theme.spacing(3) }) },
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
+  styleOverrides: {
+    root: ({ theme }) => ({
+      padding: theme.spacing(3),
+    }),
+  },
 };
 
 const MuiDialogContent = {
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
-    root: ({ theme }) => ({ padding: theme.spacing(0, 3) }),
+    root: ({ theme }) => ({
+      padding: theme.spacing(0, 3),
+    }),
     dividers: ({ theme }) => ({
       borderTop: 0,
       borderBottomStyle: 'dashed',
@@ -46,24 +42,24 @@ const MuiDialogContent = {
 };
 
 const MuiDialogActions = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
-  defaultProps: { disableSpacing: true },
-
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
+  defaultProps: {
+    disableSpacing: true,
+  },
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
     root: ({ theme }) => ({
       padding: theme.spacing(3),
-      '& > :not(:first-of-type)': { marginLeft: theme.spacing(1.5) },
+      '& > :not(:first-of-type)': {
+        marginLeft: theme.spacing(1.5),
+      },
     }),
   },
 };
 
-// ----------------------------------------------------------------------
-
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
 export const dialog = {
   MuiDialog,
   MuiDialogTitle,

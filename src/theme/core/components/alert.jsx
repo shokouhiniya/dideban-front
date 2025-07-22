@@ -1,15 +1,16 @@
-import { varAlpha } from 'minimal-shared/utils';
+import { varAlpha, parseCssVar } from 'minimal-shared/utils';
 
 import SvgIcon from '@mui/material/SvgIcon';
-import { alertClasses } from '@mui/material/Alert';
 
 // ----------------------------------------------------------------------
 
-/**
- * Icons
- */
-/** https://icon-sets.iconify.design/solar/info-circle-bold/ */
-const AlertInfoIcon = (props) => (
+const SEVERITIES = ['info', 'success', 'warning', 'error'];
+
+/* **********************************************************************
+ * ♉️ Custom icons
+ * **********************************************************************/
+const InfoIcon = (props) => (
+  // https://icon-sets.iconify.design/solar/info-circle-bold/
   <SvgIcon {...props}>
     <path
       fill="currentColor"
@@ -20,8 +21,8 @@ const AlertInfoIcon = (props) => (
   </SvgIcon>
 );
 
-/** https://icon-sets.iconify.design/solar/check-circle-bold/ */
-const AlertSuccessIcon = (props) => (
+const SuccessIcon = (props) => (
+  // https://icon-sets.iconify.design/solar/check-circle-bold/
   <SvgIcon {...props}>
     <path
       fill="currentColor"
@@ -32,8 +33,8 @@ const AlertSuccessIcon = (props) => (
   </SvgIcon>
 );
 
-/** https://icon-sets.iconify.design/solar/danger-triangle-bold/ */
-const AlertWarningIcon = (props) => (
+const WarningIcon = (props) => (
+  // https://icon-sets.iconify.design/solar/danger-triangle-bold/
   <SvgIcon {...props}>
     <path
       fill="currentColor"
@@ -44,8 +45,8 @@ const AlertWarningIcon = (props) => (
   </SvgIcon>
 );
 
-/** https://icon-sets.iconify.design/solar/danger-bold/ */
-const AlertErrorIcon = (props) => (
+const ErrorIcon = (props) => (
+  // https://icon-sets.iconify.design/solar/danger-bold/
   <SvgIcon {...props}>
     <path
       fill="currentColor"
@@ -56,103 +57,78 @@ const AlertErrorIcon = (props) => (
   </SvgIcon>
 );
 
-// ----------------------------------------------------------------------
+/* **********************************************************************
+ * 🗳️ Variants
+ * **********************************************************************/
+const standardVariants = [
+  ...SEVERITIES.map((colorKey) => ({
+    props: (props) => props.variant === 'standard' && props.severity === colorKey,
+    style: ({ theme }) => ({
+      color: theme.vars.palette[colorKey].darker,
+      backgroundColor: theme.vars.palette[colorKey].lighter,
+      ...theme.applyStyles('dark', {
+        color: theme.vars.palette[colorKey].lighter,
+        backgroundColor: theme.vars.palette[colorKey].darker,
+      }),
+    }),
+  })),
+];
 
-const COLORS = ['info', 'success', 'warning', 'error'];
+const filledVariants = [
+  ...SEVERITIES.map((colorKey) => ({
+    props: (props) => props.variant === 'filled' && props.severity === colorKey,
+    style: ({ theme }) => ({
+      color: theme.vars.palette[colorKey].contrastText,
+    }),
+  })),
+];
 
-function styleColors(ownerState, styles) {
-  const outputStyle = COLORS.reduce((acc, color) => {
-    if (ownerState.severity === color) {
-      acc = styles(color);
-    }
-    return acc;
-  }, {});
+const outlinedVariants = [
+  ...SEVERITIES.map((colorKey) => ({
+    props: (props) => props.variant === 'outlined' && props.severity === colorKey,
+    style: ({ theme }) => ({
+      color: theme.vars.palette[colorKey].dark,
+      backgroundColor: varAlpha(theme.vars.palette[colorKey].mainChannel, 0.08),
+      border: `solid 1px ${varAlpha(theme.vars.palette[colorKey].mainChannel, 0.16)}`,
+      ...theme.applyStyles('dark', {
+        color: theme.vars.palette[colorKey].light,
+      }),
+    }),
+  })),
+];
 
-  return outputStyle;
-}
-
-// ----------------------------------------------------------------------
-
+/* **********************************************************************
+ * 🧩 Components
+ * **********************************************************************/
 const MuiAlert = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
   defaultProps: {
     iconMapping: {
-      error: <AlertErrorIcon />,
-      info: <AlertInfoIcon />,
-      success: <AlertSuccessIcon />,
-      warning: <AlertWarningIcon />,
+      info: <InfoIcon />,
+      error: <ErrorIcon />,
+      success: <SuccessIcon />,
+      warning: <WarningIcon />,
     },
   },
-
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
-    icon: { opacity: 1 },
-    /**
-     * @variant standard
-     */
-    standard: ({ ownerState, theme }) => {
-      const styled = {
-        colors: styleColors(ownerState, (color) => ({
-          color: theme.vars.palette[color].darker,
-          backgroundColor: theme.vars.palette[color].lighter,
-          ...theme.applyStyles('dark', {
-            color: theme.vars.palette[color].lighter,
-            backgroundColor: theme.vars.palette[color].darker,
-          }),
-          [`& .${alertClasses.icon}`]: {
-            color: theme.vars.palette[color].main,
-            ...theme.applyStyles('dark', {
-              color: theme.vars.palette[color].light,
-            }),
-          },
-        })),
-      };
-
-      return { ...styled.colors };
+    root: {
+      variants: [...standardVariants, ...filledVariants, ...outlinedVariants],
     },
-    /**
-     * @variant filled
-     */
-    filled: ({ ownerState, theme }) => {
-      const styled = {
-        colors: styleColors(ownerState, (color) => ({
-          color: theme.vars.palette[color].contrastText,
-        })),
-      };
-
-      return { ...styled.colors };
-    },
-    /**
-     * @variant outlined
-     */
-    outlined: ({ ownerState, theme }) => {
-      const styled = {
-        colors: styleColors(ownerState, (color) => ({
-          backgroundColor: varAlpha(theme.vars.palette[color].mainChannel, 0.08),
-          color: theme.vars.palette[color].dark,
-          border: `solid 1px ${varAlpha(theme.vars.palette[color].mainChannel, 0.16)}`,
-          ...theme.applyStyles('dark', {
-            color: theme.vars.palette[color].light,
-          }),
-          [`& .${alertClasses.icon}`]: { color: theme.vars.palette[color].main },
-        })),
-      };
-
-      return { ...styled.colors };
-    },
+    icon: ({ theme }) => ({
+      opacity: 1,
+      ...theme.applyStyles('dark', {
+        [parseCssVar(theme.vars.palette.Alert.infoIconColor)]: theme.vars.palette.info.light,
+        [parseCssVar(theme.vars.palette.Alert.errorIconColor)]: theme.vars.palette.error.light,
+        [parseCssVar(theme.vars.palette.Alert.successIconColor)]: theme.vars.palette.success.light,
+        [parseCssVar(theme.vars.palette.Alert.warningIconColor)]: theme.vars.palette.warning.light,
+      }),
+    }),
   },
 };
 
-// ----------------------------------------------------------------------
-
 const MuiAlertTitle = {
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
     root: ({ theme }) => ({
       marginBottom: theme.spacing(0.5),
@@ -161,6 +137,10 @@ const MuiAlertTitle = {
   },
 };
 
-// ----------------------------------------------------------------------
-
-export const alert = { MuiAlert, MuiAlertTitle };
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
+export const alert = {
+  MuiAlert,
+  MuiAlertTitle,
+};

@@ -12,10 +12,8 @@ import { RouterLink } from 'src/routes/components';
 import { Logo } from 'src/components/logo';
 
 import { SimpleCompactContent } from './content';
-import { MainSection } from '../core/main-section';
-import { LayoutSection } from '../core/layout-section';
-import { HeaderSection } from '../core/header-section';
 import { SettingsButton } from '../components/settings-button';
+import { MainSection, LayoutSection, HeaderSection } from '../core';
 
 // ----------------------------------------------------------------------
 

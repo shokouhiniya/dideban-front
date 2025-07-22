@@ -1,3 +1,5 @@
+// ----------------------------------------------------------------------
+
 const flattenNavItems = (navItems, parentGroup) => {
   let flattenedItems = [];
 

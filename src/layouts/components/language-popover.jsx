@@ -1,3 +1,5 @@
+'use client';
+
 import { m } from 'framer-motion';
 import { useState, useCallback } from 'react';
 import { usePopover } from 'minimal-shared/hooks';
@@ -20,8 +22,8 @@ export function LanguagePopover({ data = [], sx, ...other }) {
   const currentLang = data.find((lang) => lang.value === locale);
 
   const handleChangeLang = useCallback(
-    (newLang) => {
-      setLocale(newLang);
+    (lang) => {
+      setLocale(lang);
       onClose();
     },
     [onClose]

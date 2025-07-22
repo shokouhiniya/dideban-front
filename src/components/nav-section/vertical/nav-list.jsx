@@ -14,7 +14,7 @@ export function NavList({ data, depth, render, slotProps, checkPermissions, enab
   const pathname = usePathname();
   const navItemRef = useRef(null);
 
-  const isActive = isActiveLink(pathname, data.path, !!data.children);
+  const isActive = isActiveLink(pathname, data.path, data.deepMatch ?? !!data.children);
 
   const { value: open, onFalse: onClose, onToggle } = useBoolean(isActive);
 
@@ -81,7 +81,9 @@ export function NavList({ data, depth, render, slotProps, checkPermissions, enab
       disabled={data.disabled}
       sx={{
         ...(!!data.children && {
-          [`& .${navSectionClasses.li}`]: { '&:first-of-type': { mt: 'var(--nav-item-gap)' } },
+          [`& .${navSectionClasses.li}`]: {
+            '&:first-of-type': { mt: 'var(--nav-item-gap)' },
+          },
         }),
       }}
     >

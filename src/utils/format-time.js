@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import jalaliday from 'jalaliday';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
@@ -29,8 +28,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
-dayjs.extend(jalaliday);
-dayjs.calendar('jalali');
 
 // ----------------------------------------------------------------------
 
@@ -39,8 +36,8 @@ export const formatPatterns = {
   date: 'DD MMM YYYY', // 17 Apr 2022
   time: 'h:mm a', // 12:00 am
   split: {
-    dateTime: 'YYYY/MM/DD h:mm a', // 17/04/2022 12:00 am
-    date: 'YYYY/MM/DD', // 17/04/2022
+    dateTime: 'DD/MM/YYYY h:mm a', // 17/04/2022 12:00 am
+    date: 'DD/MM/YYYY', // 17/04/2022
   },
   paramCase: {
     dateTime: 'DD-MM-YYYY h:mm a', // 17-04-2022 12:00 am
@@ -61,9 +58,6 @@ export function today(template) {
 /**
  * @output 17 Apr 2022 12:00 am
  */
-
-// ----------------------------------------------------------------------
-
 export function fDateTime(date, template) {
   if (!isValidDate(date)) {
     return 'Invalid date';
@@ -77,9 +71,6 @@ export function fDateTime(date, template) {
 /**
  * @output 17 Apr 2022
  */
-
-// ----------------------------------------------------------------------
-
 export function fDate(date, template) {
   if (!isValidDate(date)) {
     return 'Invalid date';
@@ -93,9 +84,6 @@ export function fDate(date, template) {
 /**
  * @output 12:00 am
  */
-
-// ----------------------------------------------------------------------
-
 export function fTime(date, template) {
   if (!isValidDate(date)) {
     return 'Invalid date';
@@ -109,9 +97,6 @@ export function fTime(date, template) {
 /**
  * @output 1713250100
  */
-
-// ----------------------------------------------------------------------
-
 export function fTimestamp(date) {
   if (!isValidDate(date)) {
     return 'Invalid date';
@@ -125,9 +110,6 @@ export function fTimestamp(date) {
 /**
  * @output a few seconds, 2 years
  */
-
-// ----------------------------------------------------------------------
-
 export function fToNow(date) {
   if (!isValidDate(date)) {
     return 'Invalid date';
@@ -141,9 +123,6 @@ export function fToNow(date) {
 /**
  * @output boolean
  */
-
-// ----------------------------------------------------------------------
-
 export function fIsBetween(inputDate, startDate, endDate) {
   if (!isValidDate(inputDate) || !isValidDate(startDate) || !isValidDate(endDate)) {
     return false;
@@ -169,9 +148,6 @@ export function fIsBetween(inputDate, startDate, endDate) {
 /**
  * @output boolean
  */
-
-// ----------------------------------------------------------------------
-
 export function fIsAfter(startDate, endDate) {
   if (!isValidDate(startDate) || !isValidDate(endDate)) {
     return false;
@@ -185,9 +161,6 @@ export function fIsAfter(startDate, endDate) {
 /**
  * @output boolean
  */
-
-// ----------------------------------------------------------------------
-
 export function fIsSame(startDate, endDate, unitToCompare) {
   if (!isValidDate(startDate) || !isValidDate(endDate)) {
     return false;
@@ -203,9 +176,6 @@ export function fIsSame(startDate, endDate, unitToCompare) {
  * Same month: 25 - 26 Apr 2024
  * Same year: 25 Apr - 26 May 2024
  */
-
-// ----------------------------------------------------------------------
-
 export function fDateRangeShortLabel(startDate, endDate, initial) {
   if (!isValidDate(startDate) || !isValidDate(endDate) || fIsAfter(startDate, endDate)) {
     return 'Invalid date';
@@ -233,6 +203,10 @@ export function fDateRangeShortLabel(startDate, endDate, initial) {
 }
 
 // ----------------------------------------------------------------------
+
+/**
+ * @output 2024-05-28T05:55:31+00:00
+ */
 
 export function fAdd({
   years = 0,
@@ -263,9 +237,6 @@ export function fAdd({
 /**
  * @output 2024-05-28T05:55:31+00:00
  */
-
-// ----------------------------------------------------------------------
-
 export function fSub({
   years = 0,
   months = 0,

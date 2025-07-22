@@ -1,19 +1,27 @@
 // ----------------------------------------------------------------------
 
 const MuiTimelineDot = {
-  /** **************************************
-   * STYLE
-   *************************************** */
-  styleOverrides: { root: { boxShadow: 'none' } },
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
+  styleOverrides: {
+    root: {
+      boxShadow: 'none',
+    },
+  },
 };
 
 const MuiTimelineConnector = {
-  /** **************************************
-   * STYLE
-   *************************************** */
-  styleOverrides: { root: ({ theme }) => ({ backgroundColor: theme.vars.palette.divider }) },
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
+  styleOverrides: {
+    root: ({ theme }) => ({
+      backgroundColor: theme.vars.palette.divider,
+    }),
+  },
 };
 
-// ----------------------------------------------------------------------
-
-export const timeline = { MuiTimelineDot, MuiTimelineConnector };
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
+export const timeline = {
+  MuiTimelineDot,
+  MuiTimelineConnector,
+};

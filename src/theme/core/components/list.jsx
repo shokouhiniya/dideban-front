@@ -1,42 +1,46 @@
 // ----------------------------------------------------------------------
 
 const MuiListItemIcon = {
-  /** **************************************
-   * STYLE
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
   styleOverrides: {
-    root: ({ theme }) => ({ color: 'inherit', minWidth: 'auto', marginRight: theme.spacing(2) }),
+    root: ({ theme }) => ({
+      color: 'inherit',
+      minWidth: 'auto',
+      marginRight: theme.spacing(2),
+    }),
   },
 };
 
-// ----------------------------------------------------------------------
-
 const MuiListItemAvatar = {
-  /** **************************************
-   * STYLE
-   *************************************** */
-  styleOverrides: { root: ({ theme }) => ({ minWidth: 'auto', marginRight: theme.spacing(2) }) },
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
+  styleOverrides: {
+    root: ({ theme }) => ({
+      minWidth: 'auto',
+      marginRight: theme.spacing(2),
+    }),
+  },
 };
 
-// ----------------------------------------------------------------------
-
 const MuiListItemText = {
-  /** **************************************
-   * DEFAULT PROPS
-   *************************************** */
+  // ▼▼▼▼▼▼▼▼ ⚙️ PROPS ▼▼▼▼▼▼▼▼
   defaultProps: {
     slotProps: {
       primary: { typography: 'subtitle2' },
       secondary: { component: 'span' },
     },
   },
-
-  /** **************************************
-   * STYLE
-   *************************************** */
-  styleOverrides: { root: { margin: 0 }, multiline: { margin: 0 } },
+  // ▼▼▼▼▼▼▼▼ 🎨 STYLE ▼▼▼▼▼▼▼▼
+  styleOverrides: {
+    root: { margin: 0 },
+    multiline: { margin: 0 },
+  },
 };
 
-// ----------------------------------------------------------------------
-
-export const list = { MuiListItemIcon, MuiListItemAvatar, MuiListItemText };
+/* **********************************************************************
+ * 🚀 Export
+ * **********************************************************************/
+export const list = {
+  MuiListItemIcon,
+  MuiListItemText,
+  MuiListItemAvatar,
+};

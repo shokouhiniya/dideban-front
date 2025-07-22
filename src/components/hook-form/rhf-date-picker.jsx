@@ -2,9 +2,17 @@ import dayjs from 'dayjs';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-import { formatPatterns } from 'src/utils/format-time';
+// ----------------------------------------------------------------------
+
+function normalizeDateValue(value) {
+  if (dayjs.isDayjs(value)) return value;
+
+  const parsed = value ? dayjs(value) : null;
+  return parsed?.isValid() ? parsed : null;
+}
 
 // ----------------------------------------------------------------------
 
@@ -18,16 +26,22 @@ export function RHFDatePicker({ name, slotProps, ...other }) {
       render={({ field, fieldState: { error } }) => (
         <DatePicker
           {...field}
-          value={dayjs(field.value)}
-          onChange={(newValue) => field.onChange(dayjs(newValue).format())}
-          format={formatPatterns.split.date}
+          value={normalizeDateValue(field.value)}
+          onChange={(newValue) => {
+            if (!newValue) {
+              field.onChange(null);
+              return;
+            }
+
+            const parsedValue = dayjs(newValue);
+            field.onChange(parsedValue.isValid() ? parsedValue.format() : newValue);
+          }}
           slotProps={{
             ...slotProps,
             textField: {
-              fullWidth: true,
+              ...slotProps?.textField,
               error: !!error,
               helperText: error?.message ?? slotProps?.textField?.helperText,
-              ...slotProps?.textField,
             },
           }}
           {...other}
@@ -39,7 +53,7 @@ export function RHFDatePicker({ name, slotProps, ...other }) {
 
 // ----------------------------------------------------------------------
 
-export function RHFMobileDateTimePicker({ name, slotProps, ...other }) {
+export function RHFTimePicker({ name, slotProps, ...other }) {
   const { control } = useFormContext();
 
   return (
@@ -47,19 +61,62 @@ export function RHFMobileDateTimePicker({ name, slotProps, ...other }) {
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <MobileDateTimePicker
+        <TimePicker
           {...field}
-          value={dayjs(field.value)}
-          onChange={(newValue) => field.onChange(dayjs(newValue).format())}
-          format={formatPatterns.split.dateTime}
+          value={normalizeDateValue(field.value)}
+          onChange={(newValue) => {
+            if (!newValue) {
+              field.onChange(null);
+              return;
+            }
+
+            const parsedValue = dayjs(newValue);
+            field.onChange(parsedValue.isValid() ? parsedValue.format() : newValue);
+          }}
           slotProps={{
+            ...slotProps,
             textField: {
-              fullWidth: true,
+              ...slotProps?.textField,
               error: !!error,
               helperText: error?.message ?? slotProps?.textField?.helperText,
-              ...slotProps?.textField,
             },
+          }}
+          {...other}
+        />
+      )}
+    />
+  );
+}
+
+// ----------------------------------------------------------------------
+
+export function RHFDateTimePicker({ name, slotProps, ...other }) {
+  const { control } = useFormContext();
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <DateTimePicker
+          {...field}
+          value={normalizeDateValue(field.value)}
+          onChange={(newValue) => {
+            if (!newValue) {
+              field.onChange(null);
+              return;
+            }
+
+            const parsedValue = dayjs(newValue);
+            field.onChange(parsedValue.isValid() ? parsedValue.format() : newValue);
+          }}
+          slotProps={{
             ...slotProps,
+            textField: {
+              ...slotProps?.textField,
+              error: !!error,
+              helperText: error?.message ?? slotProps?.textField?.helperText,
+            },
           }}
           {...other}
         />

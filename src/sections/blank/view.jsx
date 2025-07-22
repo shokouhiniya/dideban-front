@@ -9,7 +9,7 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 // ----------------------------------------------------------------------
 
-export function BlankView({ title = 'Blank', sx }) {
+export function BlankView({ title = 'Blank', description, sx }) {
   const renderContent = () => (
     <Box
       sx={[
@@ -29,6 +29,8 @@ export function BlankView({ title = 'Blank', sx }) {
   return (
     <DashboardContent maxWidth="xl">
       <Typography variant="h4"> {title} </Typography>
+      {description && <Typography sx={{ mt: 1 }}> {description} </Typography>}
+
       {renderContent()}
     </DashboardContent>
   );

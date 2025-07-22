@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 
 import { useSettingsContext } from 'src/components/settings';
 
-import { layoutClasses } from '../core/classes';
+import { layoutClasses } from '../core';
 
 // ----------------------------------------------------------------------
 

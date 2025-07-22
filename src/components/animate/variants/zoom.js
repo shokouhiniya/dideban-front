@@ -11,11 +11,7 @@ export const varZoom = (direction, options) => {
     /**** In ****/
     in: {
       initial: { scale: 0, opacity: 0 },
-      animate: {
-        scale: 1,
-        opacity: 1,
-        transition: transitionEnter(transitionIn),
-      },
+      animate: { scale: 1, opacity: 1, transition: transitionEnter(transitionIn) },
       exit: { scale: 0, opacity: 0, transition: transitionExit(transitionOut) },
     },
     inUp: {
@@ -85,11 +81,7 @@ export const varZoom = (direction, options) => {
     /**** Out ****/
     out: {
       initial: { scale: 1, opacity: 1 },
-      animate: {
-        scale: 0,
-        opacity: 0,
-        transition: transitionEnter(transitionIn),
-      },
+      animate: { scale: 0, opacity: 0, transition: transitionEnter(transitionIn) },
     },
     outUp: {
       initial: { scale: 1, opacity: 1 },
