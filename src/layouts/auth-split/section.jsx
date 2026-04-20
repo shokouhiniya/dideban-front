@@ -1,24 +1,19 @@
 import { varAlpha } from 'minimal-shared/utils';
 
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
-import { RouterLink } from 'src/routes/components';
-
 import { CONFIG } from 'src/global-config';
+
+import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
 export function AuthSplitSection({
   sx,
-  method,
-  methods,
   layoutQuery = 'md',
-  title = 'Manage the job',
-  imgUrl = `${CONFIG.assetsDir}/assets/illustrations/illustration-dashboard.webp`,
-  subtitle = 'More effectively with optimized workflows.',
+  title = 'دیده‌بان',
+  subtitle = 'پایش هوشمند مواضع، وعده‌ها و کارنامه رجال سیاسی بر اساس متدولوژی اصالت متن.',
   ...other
 }) {
   return (
@@ -39,7 +34,7 @@ export function AuthSplitSection({
           position: 'relative',
           pt: 'var(--layout-header-desktop-height)',
           [theme.breakpoints.up(layoutQuery)]: {
-            gap: 8,
+            gap: 6,
             display: 'flex',
             alignItems: 'center',
             flexDirection: 'column',
@@ -50,60 +45,40 @@ export function AuthSplitSection({
       ]}
       {...other}
     >
-      <div>
-        <Typography variant="h3" sx={{ textAlign: 'center' }}>
+      <Box sx={{ textAlign: 'center' }}>
+        <Box
+          sx={{
+            width: 64,
+            height: 64,
+            borderRadius: '50%',
+            bgcolor: 'primary.main',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            mx: 'auto',
+            mb: 3,
+          }}
+        >
+          <Iconify icon="solar:eye-bold-duotone" width={32} sx={{ color: 'common.white' }} />
+        </Box>
+
+        <Typography variant="h3" sx={{ mb: 2 }}>
           {title}
         </Typography>
 
         {subtitle && (
-          <Typography sx={{ color: 'text.secondary', textAlign: 'center', mt: 2 }}>
+          <Typography sx={{ color: 'text.secondary', lineHeight: 1.8 }}>
             {subtitle}
           </Typography>
         )}
-      </div>
+      </Box>
 
       <Box
         component="img"
         alt="Dashboard illustration"
-        src={imgUrl}
-        sx={{ width: 1, aspectRatio: '4/3', objectFit: 'cover' }}
+        src={`${CONFIG.assetsDir}/assets/illustrations/illustration-dashboard.webp`}
+        sx={{ width: 1, aspectRatio: '4/3', objectFit: 'cover', borderRadius: 2 }}
       />
-
-      {!!methods?.length && method && (
-        <Box component="ul" sx={{ gap: 2, display: 'flex' }}>
-          {methods.map((option) => {
-            const selected = method === option.label.toLowerCase();
-
-            return (
-              <Box
-                key={option.label}
-                component="li"
-                sx={{
-                  ...(!selected && {
-                    cursor: 'not-allowed',
-                    filter: 'grayscale(1)',
-                  }),
-                }}
-              >
-                <Tooltip title={option.label} placement="top">
-                  <Link
-                    component={RouterLink}
-                    href={option.path}
-                    sx={{ ...(!selected && { pointerEvents: 'none' }) }}
-                  >
-                    <Box
-                      component="img"
-                      alt={option.label}
-                      src={option.icon}
-                      sx={{ width: 32, height: 32 }}
-                    />
-                  </Link>
-                </Tooltip>
-              </Box>
-            );
-          })}
-        </Box>
-      )}
     </Box>
   );
 }

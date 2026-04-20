@@ -4,9 +4,9 @@ import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
 import { CONFIG } from 'src/global-config';
-import { themeConfig, ThemeProvider, primary as primaryColor } from 'src/theme';
-import { I18nProvider, LocalizationProvider } from 'src/locales';
 import ScreenSize from 'src/layouts/screen-size';
+import { I18nProvider, LocalizationProvider } from 'src/locales';
+import { themeConfig, ThemeProvider, primary as primaryColor } from 'src/theme';
 
 import { ProgressBar } from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
@@ -26,6 +26,8 @@ export const viewport = {
 };
 
 export const metadata = {
+  title: 'دیده‌بان | پایش هوشمند مواضع رجال سیاسی',
+  description: 'سامانه دیده‌بان؛ حافظه دیجیتال هوشمند برای پایش، تحلیل و کارنامه‌سازی مواضع رجال سیاسی.',
   icons: [
     {
       rel: 'icon',
@@ -56,7 +58,7 @@ export default async function RootLayout({ children }) {
   const appConfig = await getAppConfig();
 
   return (
-    <html lang="en" dir={appConfig.dir} suppressHydrationWarning>
+    <html lang="fa" dir={appConfig.dir} suppressHydrationWarning>
       <body>
         <InitColorSchemeScript
           modeStorageKey={themeConfig.modeStorageKey}

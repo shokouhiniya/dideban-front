@@ -16,6 +16,12 @@ const isStaticExport = false;
 const nextConfig = {
   trailingSlash: true,
   output: isStaticExport ? 'export' : undefined,
+  images: {
+    remotePatterns: [
+      { protocol: 'http', hostname: 'localhost', port: '3000' },
+      { protocol: 'https', hostname: 'rc.majlis.ir' },
+    ],
+  },
   env: {
     BUILD_STATIC_EXPORT: JSON.stringify(isStaticExport),
   },

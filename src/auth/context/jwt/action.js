@@ -36,8 +36,7 @@ export const signUp = async ({ email, password, firstName, lastName }) => {
   const params = {
     email,
     password,
-    firstName,
-    lastName,
+    displayName: `${firstName} ${lastName}`.trim(),
   };
 
   try {

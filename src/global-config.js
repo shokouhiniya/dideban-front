@@ -1,5 +1,3 @@
-import { paths } from 'src/routes/paths';
-
 import packageJson from '../package.json';
 
 // ----------------------------------------------------------------------
@@ -12,12 +10,12 @@ export const UI_CONFIG = {
   searchbar: false,
   contacts: false,
   settings: false,
-  account: true,
-  mobileOnly: true,
+  account: false,
+  mobileOnly: false,
 }
 
 export const CONFIG = {
-  appName: 'Minimal UI',
+  appName: 'دیده‌بان',
   appVersion: packageJson.version,
   serverUrl: process.env.NEXT_PUBLIC_SERVER_URL ?? '',
   assetsDir: process.env.NEXT_PUBLIC_ASSETS_DIR ?? '',
@@ -29,7 +27,7 @@ export const CONFIG = {
   auth: {
     method: 'jwt',
     skip: true,
-    redirectPath: paths.dashboard.root,
+    redirectPath: '/landing',
   },
   /**
    * Mapbox

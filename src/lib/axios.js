@@ -11,18 +11,13 @@ const axiosInstance = axios.create({
   },
 });
 
-/**
- * Optional: Add token (if using auth)
- *
- axiosInstance.interceptors.request.use((config) => {
+axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem('accessToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
-*
-*/
 
 axiosInstance.interceptors.response.use(
   (response) => response,
@@ -53,28 +48,43 @@ export const fetcher = async (args) => {
 // ----------------------------------------------------------------------
 
 export const endpoints = {
-  chat: '/api/chat',
-  kanban: '/api/kanban',
-  calendar: '/api/calendar',
   auth: {
     me: '/api/auth/me',
     signIn: '/api/auth/sign-in',
     signUp: '/api/auth/sign-up',
   },
-  mail: {
-    list: '/api/mail/list',
-    details: '/api/mail/details',
-    labels: '/api/mail/labels',
+  // Dideban endpoints
+  politicians: {
+    list: '/api/politicians',
+    search: '/api/politicians/search',
+    details: (id) => `/api/politicians/${id}`,
+    profile: (id) => `/api/politicians/${id}/profile`,
+    trending: '/api/politicians/trending',
+    topPerformers: '/api/politicians/top-performers',
+    compare: '/api/politicians/compare',
   },
-  post: {
-    list: '/api/post/list',
-    details: '/api/post/details',
-    latest: '/api/post/latest',
-    search: '/api/post/search',
+  stances: {
+    list: (politicianId) => `/api/politicians/${politicianId}/stances`,
+    timeline: (politicianId) => `/api/politicians/${politicianId}/stances/timeline`,
+    contradictions: (politicianId) => `/api/politicians/${politicianId}/stances/contradictions`,
   },
-  product: {
-    list: '/api/product/list',
-    details: '/api/product/details',
-    search: '/api/product/search',
+  promises: {
+    list: (politicianId) => `/api/politicians/${politicianId}/promises`,
+  },
+  submissions: {
+    create: '/api/submissions',
+    list: '/api/submissions',
+    details: (id) => `/api/submissions/${id}`,
+    validateUrl: '/api/submissions/validate-url',
+  },
+  verification: {
+    queue: '/api/verification/queue',
+    review: (id) => `/api/verification/${id}/review`,
+    conflicts: '/api/verification/conflicts',
+    activityLog: '/api/verification/activity-log',
+  },
+  codebook: {
+    topics: '/api/codebook/topics',
+    subtopics: (topicId) => `/api/codebook/topics/${topicId}/subtopics`,
   },
 };

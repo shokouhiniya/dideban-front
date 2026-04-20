@@ -20,7 +20,7 @@ export const themeConfig = {
    *************************************** */
   fontFamily: {
     primary: 'Vazirmatn Variable',
-    secondary: 'Barlow',
+    secondary: 'Vazirmatn Variable',
   },
   /** **************************************
    * Palette

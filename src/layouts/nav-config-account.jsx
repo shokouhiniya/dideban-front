@@ -1,25 +1,28 @@
+import { paths } from 'src/routes/paths';
+
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
 export const _account = [
-  { label: 'Home', href: '/', icon: <Iconify icon="solar:home-angle-bold-duotone" /> },
   {
-    label: 'Profile',
-    href: '#',
-    icon: <Iconify icon="custom:profile-duotone" />,
+    label: 'صفحه اصلی',
+    href: paths.landing,
+    icon: <Iconify icon="solar:home-angle-bold-duotone" />,
   },
   {
-    label: 'Projects',
-    href: '#',
-    icon: <Iconify icon="solar:notes-bold-duotone" />,
-    info: '3',
+    label: 'شناخت افراد',
+    href: paths.dashboard.search,
+    icon: <Iconify icon="solar:users-group-rounded-bold-duotone" />,
   },
   {
-    label: 'Subscription',
-    href: '#',
-    icon: <Iconify icon="custom:invoice-duotone" />,
+    label: 'ثبت مستندات',
+    href: paths.dashboard.submit,
+    icon: <Iconify icon="solar:document-add-bold-duotone" />,
   },
-  { label: 'Security', href: '#', icon: <Iconify icon="solar:shield-keyhole-bold-duotone" /> },
-  { label: 'Account settings', href: '#', icon: <Iconify icon="solar:settings-bold-duotone" /> },
+  {
+    label: 'تنظیمات حساب',
+    href: '#',
+    icon: <Iconify icon="solar:settings-bold-duotone" />,
+  },
 ];

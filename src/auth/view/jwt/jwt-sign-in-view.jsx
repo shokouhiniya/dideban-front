@@ -10,7 +10,9 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import { paths } from 'src/routes/paths';
@@ -30,29 +32,23 @@ import { signInWithPassword } from '../../context/jwt';
 export const SignInSchema = zod.object({
   email: zod
     .string()
-    .min(1, { message: 'Email is required!' })
-    .email({ message: 'Email must be a valid email address!' }),
+    .min(1, { message: 'ایمیل الزامی است' })
+    .email({ message: 'ایمیل معتبر وارد کنید' }),
   password: zod
     .string()
-    .min(1, { message: 'Password is required!' })
-    .min(6, { message: 'Password must be at least 6 characters!' }),
+    .min(1, { message: 'رمز عبور الزامی است' })
+    .min(6, { message: 'رمز عبور باید حداقل ۶ کاراکتر باشد' }),
 });
 
 // ----------------------------------------------------------------------
 
 export function JwtSignInView() {
   const router = useRouter();
-
   const showPassword = useBoolean();
-
   const { checkUserSession } = useAuthContext();
-
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: '@2Minimal',
-  };
+  const defaultValues = { email: '', password: '' };
 
   const methods = useForm({
     resolver: zodResolver(SignInSchema),
@@ -68,86 +64,29 @@ export function JwtSignInView() {
     try {
       await signInWithPassword({ email: data.email, password: data.password });
       await checkUserSession?.();
-
-      router.refresh();
+      router.push(paths.dashboard.submit);
     } catch (error) {
       console.error(error);
-      const feedbackMessage = getErrorMessage(error);
-      setErrorMessage(feedbackMessage);
+      setErrorMessage(getErrorMessage(error));
     }
   });
-
-  const renderForm = () => (
-    <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column' }}>
-      <Field.Text name="email" label="Email address" slotProps={{ inputLabel: { shrink: true } }} />
-
-      <Box sx={{ gap: 1.5, display: 'flex', flexDirection: 'column' }}>
-        <Link
-          component={RouterLink}
-          href="#"
-          variant="body2"
-          color="inherit"
-          sx={{ alignSelf: 'flex-end' }}
-        >
-          Forgot password?
-        </Link>
-
-        <Field.Text
-          name="password"
-          label="Password"
-          placeholder="6+ characters"
-          type={showPassword.value ? 'text' : 'password'}
-          slotProps={{
-            inputLabel: { shrink: true },
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={showPassword.onToggle} edge="end">
-                    <Iconify
-                      icon={showPassword.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'}
-                    />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            },
-          }}
-        />
-      </Box>
-
-      <Button
-        fullWidth
-        color="inherit"
-        size="large"
-        type="submit"
-        variant="contained"
-        loading={isSubmitting}
-        loadingIndicator="Sign in..."
-      >
-        Sign in
-      </Button>
-    </Box>
-  );
 
   return (
     <>
       <FormHead
-        title="Sign in to your account"
+        title="ورود به دیده‌بان"
         description={
           <>
-            {`Don’t have an account? `}
+            حساب کاربری ندارید؟{' '}
             <Link component={RouterLink} href={paths.auth.jwt.signUp} variant="subtitle2">
-              Get started
+              ثبت‌نام کنید
             </Link>
           </>
         }
         sx={{ textAlign: { xs: 'center', md: 'left' } }}
       />
 
-      <Alert severity="info" sx={{ mb: 3 }}>
-        Use <strong>{defaultValues.email}</strong>
-        {' with password '}
-        <strong>{defaultValues.password}</strong>
-      </Alert>
+      
 
       {!!errorMessage && (
         <Alert severity="error" sx={{ mb: 3 }}>
@@ -156,7 +95,74 @@ export function JwtSignInView() {
       )}
 
       <Form methods={methods} onSubmit={onSubmit}>
-        {renderForm()}
+        <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column' }}>
+          <Field.Text
+            name="email"
+            label="ایمیل"
+            slotProps={{ inputLabel: { shrink: true } }}
+          />
+
+          <Box sx={{ gap: 1.5, display: 'flex', flexDirection: 'column' }}>
+            <Link
+              component={RouterLink}
+              href="#"
+              variant="body2"
+              color="inherit"
+              sx={{ alignSelf: 'flex-end' }}
+            >
+              فراموشی رمز عبور؟
+            </Link>
+
+            <Field.Text
+              name="password"
+              label="رمز عبور"
+              placeholder="حداقل ۶ کاراکتر"
+              type={showPassword.value ? 'text' : 'password'}
+              slotProps={{
+                inputLabel: { shrink: true },
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={showPassword.onToggle} edge="end">
+                        <Iconify
+                          icon={showPassword.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'}
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+          </Box>
+
+          <Button
+            fullWidth
+            color="inherit"
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+            loadingIndicator="در حال ورود..."
+          >
+            ورود
+          </Button>
+
+          <Divider sx={{ my: 0 }}>
+            <Typography variant="body2" color="text.secondary">
+              یا
+            </Typography>
+          </Divider>
+
+          <Button
+            fullWidth
+            variant="outlined"
+            size="large"
+            onClick={() => router.push(paths.dashboard.search)}
+            startIcon={<Iconify icon="solar:users-group-rounded-bold" />}
+          >
+            بدون ورود، شناخت افراد
+          </Button>
+        </Box>
       </Form>
     </>
   );

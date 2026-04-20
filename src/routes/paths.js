@@ -8,10 +8,13 @@ const ROOTS = {
 // ----------------------------------------------------------------------
 
 export const paths = {
-  faqs: '/faqs',
-  minimalStore: 'https://mui.com/store/items/minimal-dashboard/',
+  landing: '/landing',
   // AUTH
   auth: {
+    jwt: {
+      signIn: `${ROOTS.AUTH}/jwt/sign-in`,
+      signUp: `${ROOTS.AUTH}/jwt/sign-up`,
+    },
     amplify: {
       signIn: `${ROOTS.AUTH}/amplify/sign-in`,
       verify: `${ROOTS.AUTH}/amplify/verify`,
@@ -19,19 +22,13 @@ export const paths = {
       updatePassword: `${ROOTS.AUTH}/amplify/update-password`,
       resetPassword: `${ROOTS.AUTH}/amplify/reset-password`,
     },
-    jwt: {
-      signIn: `${ROOTS.AUTH}/jwt/sign-in`,
-      signUp: `${ROOTS.AUTH}/jwt/sign-up`,
-    },
     firebase: {
       signIn: `${ROOTS.AUTH}/firebase/sign-in`,
       verify: `${ROOTS.AUTH}/firebase/verify`,
       signUp: `${ROOTS.AUTH}/firebase/sign-up`,
       resetPassword: `${ROOTS.AUTH}/firebase/reset-password`,
     },
-    auth0: {
-      signIn: `${ROOTS.AUTH}/auth0/sign-in`,
-    },
+    auth0: { signIn: `${ROOTS.AUTH}/auth0/sign-in` },
     supabase: {
       signIn: `${ROOTS.AUTH}/supabase/sign-in`,
       verify: `${ROOTS.AUTH}/supabase/verify`,
@@ -43,12 +40,12 @@ export const paths = {
   // DASHBOARD
   dashboard: {
     root: ROOTS.DASHBOARD,
-    two: `${ROOTS.DASHBOARD}/two`,
-    three: `${ROOTS.DASHBOARD}/three`,
-    group: {
-      root: `${ROOTS.DASHBOARD}/group`,
-      five: `${ROOTS.DASHBOARD}/group/five`,
-      six: `${ROOTS.DASHBOARD}/group/six`,
+    search: `${ROOTS.DASHBOARD}/search`,
+    profile: {
+      root: `${ROOTS.DASHBOARD}/profile`,
+      view: (id) => `${ROOTS.DASHBOARD}/profile/${id}`,
     },
+    submit: `${ROOTS.DASHBOARD}/submit`,
+    moderator: `${ROOTS.DASHBOARD}/moderator`,
   },
 };

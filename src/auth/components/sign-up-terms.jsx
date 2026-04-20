@@ -19,15 +19,15 @@ export function SignUpTerms({ sx, ...other }) {
       ]}
       {...other}
     >
-      {'By signing up, I agree to '}
+      با ثبت‌نام، با{' '}
       <Link underline="always" color="text.primary">
-        Terms of service
+        شرایط استفاده
       </Link>
-      {' and '}
+      {' و '}
       <Link underline="always" color="text.primary">
-        Privacy policy
+        حریم خصوصی
       </Link>
-      .
+      {' موافقت می‌کنید.'}
     </Box>
   );
 }
