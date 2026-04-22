@@ -39,7 +39,7 @@ const TABS = [
   { value: 'evidence', label: 'آرشیو و مشارکت', icon: 'solar:archive-bold' },
 ];
 
-const SERVER_URL = CONFIG.serverUrl || 'http://localhost:3000';
+const SERVER_URL = CONFIG.serverUrl;
 
 // ----------------------------------------------------------------------
 
